@@ -27,10 +27,9 @@ jobs:
         run: docker build -f src/main/docker/Dockerfile.jvm -t gh.io/benc-uk/java-cassandra-test:latest .
 
       - name: "Login to GitHub container registry"
-        if: github.ref == 'refs/heads/master'
         uses: docker/login-action@v1
         with:
-          registry: ${{ env.IMAGE_REG }}
+          registry: gh.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
 

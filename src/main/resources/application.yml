@@ -3,3 +3,8 @@ display:
   unit:
     name: "mph"
     factor: 2.23694
+
+quarkus:
+  cassandra:
+    contact-points: ["127.0.0.1:9042"]
+    local-datacenter: datacenter1

@@ -1,0 +1,6 @@
+dependencies:
+- name: cassandra
+  repository: https://charts.bitnami.com/bitnami
+  version: 7.0.1
+digest: sha256:0f4627f353a1d5b4ce077cc282bc47a612b3f5e73c35d5abde2f52574d0d59de
+generated: "2020-12-02T22:54:26.1832664Z"

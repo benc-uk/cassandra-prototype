@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "testapp.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "testapp.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "testapp.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: testapp
+        image: {{ .Values.image.reg }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}
+
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+
+        ports:
+        - containerPort: {{ .Values.network.port }}
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.network.port }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.network.port }}
+
+        volumeMounts:
+        - name: app-config 
+          mountPath: "/deployments/config" 
+          readOnly: true
+
+      volumes:
+      - name: app-config
+        configMap:
+          name: {{ include "testapp.fullname" . }}
+          items:
+          - key: application.properties 
+            path: application.properties

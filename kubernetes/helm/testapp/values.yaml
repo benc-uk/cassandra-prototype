@@ -1,0 +1,17 @@
+image:
+  reg: ghcr.io
+  repo: benc-uk/java-cassandra-test
+  tag: latest
+
+network:
+  port: 8080
+
+cassandra:
+  persistence:
+    enabled: false
+  replicaCount: 1
+  cluster:
+    datacenter: datacenter1 # No effect due to this bug https://github.com/bitnami/charts/issues/4408
+  dbUser:
+    user: cassandra
+    password: SoS3cretW0W!

@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: testapp-config
+data:
+  application.properties: |-
+    quarkus.http.port=8080
+    quarkus.cassandra.contact-points=cassdb-cassandra-headless:9042
+    quarkus.cassandra.auth.username=cassandra
+    quarkus.cassandra.local-datacenter=datacenter1

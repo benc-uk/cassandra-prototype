@@ -1,7 +1,8 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
->>> Java Quarkus Cassandra Prototype >>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<  Java Quarkus Cassandra Prototype ☕ ⚡ ✨  >>>>>>>>
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+CASSANDRA + APP
 INSTALLED! 🚀
 
 1. Get the application URL by running these commands:

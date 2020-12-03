@@ -7,7 +7,7 @@ network:
   port: 8080
 service:
   port: 80
-  type: LoadBalancer
+  type: ClusterIP
 ingress:
   enabled: false
   hosts:

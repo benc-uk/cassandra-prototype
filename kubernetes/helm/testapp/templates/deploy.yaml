@@ -24,6 +24,13 @@ spec:
         ports:
         - containerPort: {{ .Values.network.port }}
 
+        env:
+          - name: QUARKUS_CASSANDRA_AUTH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-cassandra
+                key: cassandra-password
+
         livenessProbe:
           httpGet:
             path: /

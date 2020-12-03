@@ -1,0 +1,13 @@
+cassandra:
+  persistence:
+    enabled: false
+
+ingress:
+  enabled: true
+  hosts:
+    - host: testapp.kube.benco.io
+      paths: ["/"]
+  tls:
+    - secretName: kube-benco-io-cert
+      hosts:
+        - testapp.kube.benco.io

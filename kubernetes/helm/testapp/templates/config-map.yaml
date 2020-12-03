@@ -7,5 +7,5 @@ data:
     quarkus.http.port={{ .Values.network.port }}
     quarkus.cassandra.contact-points={{ .Release.Name }}-cassandra-headless:9042
     quarkus.cassandra.auth.username={{ .Values.cassandra.dbUser.user }}
-    quarkus.cassandra.auth.password={{ .Values.cassandra.dbUser.password }}
     quarkus.cassandra.local-datacenter={{ .Values.cassandra.cluster.datacenter }}
+    quarkus.smallrye-health.ui.always-include=true

@@ -5,13 +5,21 @@ image:
 
 network:
   port: 8080
+service:
+  port: 80
+  type: LoadBalancer
+ingress:
+  enabled: false
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
 
 cassandra:
   persistence:
-    enabled: false
+    enabled: true
   replicaCount: 1
   cluster:
     datacenter: datacenter1 # No effect due to this bug https://github.com/bitnami/charts/issues/4408
   dbUser:
     user: cassandra
-    password: SoS3cretW0W!

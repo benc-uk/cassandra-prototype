@@ -1,3 +1,7 @@
+#!/bin/bash
+
+echo "Starting cassandra!"
+
 docker run \
    --name local-cassandra-instance \
    -p 7000:7000 \

@@ -8,3 +8,4 @@ data:
     quarkus.cassandra.contact-points=cassdb-cassandra-headless:9042
     quarkus.cassandra.auth.username=cassandra
     quarkus.cassandra.local-datacenter=datacenter1
+    quarkus.smallrye-health.ui.always-include=true

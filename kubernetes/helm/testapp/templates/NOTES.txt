@@ -26,3 +26,9 @@ INSTALLED! 🚀
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:80
 {{- end }}
+
+Get Grafana Password:
+kubectl get secret {{ .Release.Name }}-grafana  -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+Grafana Username: admin
+Grafana URL: 
+kubectl get svc {{ .Release.Name }}-grafana -o jsonpath='{.status.loadBalancer.ingress[0].ip}'

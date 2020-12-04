@@ -2,6 +2,11 @@ cassandra:
   persistence:
     enabled: false
 
+prometheus:
+  server:
+    persistentVolume:
+      enabled: false
+
 ingress:
   enabled: true
   hosts:

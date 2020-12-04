@@ -2,5 +2,11 @@ dependencies:
 - name: cassandra
   repository: https://charts.bitnami.com/bitnami
   version: 7.0.1
-digest: sha256:0f4627f353a1d5b4ce077cc282bc47a612b3f5e73c35d5abde2f52574d0d59de
-generated: "2020-12-02T22:54:26.1832664Z"
+- name: prometheus
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 12.0.1
+- name: grafana
+  repository: https://grafana.github.io/helm-charts
+  version: 6.1.12
+digest: sha256:410e021d434ed96254d03e89af8f0b4907b31d53f285a25294a61f20d1514851
+generated: "2020-12-04T14:27:48.8705015Z"

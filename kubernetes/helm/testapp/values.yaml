@@ -23,3 +23,17 @@ cassandra:
     datacenter: datacenter1 # No effect due to this bug https://github.com/bitnami/charts/issues/4408
   dbUser:
     user: cassandra
+
+prometheus:
+  alertmanager:
+    enabled: false
+  pushgateway:
+    enabled: false
+  extraScrapeConfigs: |
+    - job_name: quarkus_metrics
+      static_configs:
+      - targets: ['test-testapp:80']
+
+grafana:
+  service:
+    type: LoadBalancer

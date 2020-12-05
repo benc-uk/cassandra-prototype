@@ -30,9 +30,12 @@ prometheus:
   pushgateway:
     enabled: false
   extraScrapeConfigs: |
-    - job_name: quarkus_metrics
-      static_configs:
-      - targets: ['test-testapp:80']
+    - job_name: app_metrics
+      kubernetes_sd_configs:
+      - role: service
+        selectors:
+        - role: service
+          label: "app.kubernetes.io/name=testapp"
 
 grafana:
   service:

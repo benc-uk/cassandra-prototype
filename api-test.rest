@@ -1,11 +1,14 @@
-GET http://localhost:8080/fruits
+#@endpoint = http://localhost:8080
+@endpoint = https://testapp.kube.benco.io
 
 ###
+GET {{endpoint}}/fruits
 
-POST http://localhost:8080/fruits
+###
+POST {{endpoint}}/fruits
 Content-Type: application/json
 
 {
-  "name": "Apple",
+  "name": "Apple {{$randomInt 0 10000}}",
   "description": "Round and green"
 }

@@ -29,7 +29,6 @@ public class CassandraHealthCheck implements HealthCheck {
     ResultSet nowResult = this.session.execute("SELECT now() FROM system.local;");
     Date date = new Date(getTimeFromUUID(nowResult.one().getUuid(0)));
 
-
     ResultSet clusterRes = this.session.execute("SELECT cluster_name FROM system.local;");
     String clusterName = clusterRes.one().getString(0);
 

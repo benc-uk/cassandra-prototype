@@ -23,6 +23,7 @@ cassandra:
     datacenter: datacenter1 # No effect due to this bug https://github.com/bitnami/charts/issues/4408
   dbUser:
     user: cassandra
+  initDBConfigMap: testapp-cassandra-db-init
 
 prometheus:
   alertmanager:
@@ -40,3 +41,8 @@ prometheus:
 grafana:
   service:
     type: LoadBalancer
+  sidecar:
+    dashboards:
+      enabled: true
+    datasources:
+      enabled: true

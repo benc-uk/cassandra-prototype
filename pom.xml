@@ -4,10 +4,10 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.microsoft</groupId>
-  <artifactId>quarkus-test</artifactId>
-  <version>1.0.0-alpha4-SNAPSHOT</version>
+  <artifactId>java-cassandra-test</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <name>Cassandra Quarkus Test App</name>
-  <description>This is awful</description>
+  <description>Maven is awful</description>
 
   <properties>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>

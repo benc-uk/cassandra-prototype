@@ -16,3 +16,12 @@ ingress:
     - secretName: kube-benco-io-cert
       hosts:
         - testapp.kube.benco.io
+
+grafana:
+  ingress:
+    enabled: true
+    hosts: ["grafana.kube.benco.io"]
+    tls:
+      - secretName: kube-benco-io-cert
+        hosts:
+          - grafana.kube.benco.io

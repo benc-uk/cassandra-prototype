@@ -1,9 +1,3 @@
-display:
-  mach: 3
-  unit:
-    name: "mph"
-    factor: 2.23694
-
 quarkus:
   http:
     port: 8080

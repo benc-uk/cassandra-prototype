@@ -1,5 +1,43 @@
 # Java Quarkus + Cassandra Prototype
 
+A prototype sample app investigating using Java, Quarkus, Cassandra, Helm, Prometheus & Grafana
+
+This repo has been initially created using the app generator https://code.quarkus.io/
+
+The steps in this guide https://quarkus.io/guides/cassandra have been partially applied, resulting in the code in `./src/main/java/org/microsoft/fruit` and a functioning app with a basic REST API and Cassandra datastore
+
+# Additions
+
+## Deployment Automation - Helm Chart
+
+Helm chart in `./kubernetes/helm/testapp` carries out the following:
+
+- Deploys the Quarkus app from ghcr.io/benc-uk/java-cassandra-test
+- Deploys Cassandra + keyspace & table
+- Prometheus & Grafana
+  - Prometheus set to scrape metrics exported by the app (See below)
+  - Grafana configured wth datasource & application specific dashboard (see below)
+
+## CI/CD - GitHub Actions
+
+`./.github/workflows/ci.yml` - A very simple CI pipeline using GitHub Actions which builds the app and pushes it to GitHub Container Registry
+
+## Observability - Prometheus & Grafana
+
+- The app exposes standard metrics using the [MicroProfile Metrics spec & Quarkus Plugin](https://quarkus.io/guides/microprofile-metrics)
+
+- The app REST controller also exposes some custom metrics around the REST operation counts and rates.
+
+- These metrics can be scraped by Prometheus.
+
+- A Grafana dashboard `./kubernetes/helm/testapp/files/grafana-dashboard.json`, created via the generator in `./microprofile-grafana`
+
+## Local Scripts
+
+`./scripts/cassandra-local.sh` - Starts Cassandra locally in Docker and creates required keyspace and table
+
+# Quarkus Details
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
@@ -48,10 +86,3 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 You can then execute your native executable with: `./target/quarkus-test-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.html.
-
-# Config example
-
-<p>This example displays mach speed in your favourite unit, depending on the specified Quarkus configuration.</p>
-<p>The Quarkus configuration is located in: <code>src/main/resources/application.yml</code></p>
-<p><b>Supersonic!</b></p>
-Guide: https://quarkus.io/guides/config#yaml

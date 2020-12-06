@@ -55,15 +55,383 @@
          "type": "row"
       },
       {
+         "aliasColors": { },
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "-- Mixed --",
+         "decimals": 2,
+         "description": "Number of add fruit calls",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 1
+         },
+         "id": 3,
+         "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sideWidth": null,
+            "total": false,
+            "values": true
+         },
+         "lines": true,
+         "linewidth": 1,
+         "links": [ ],
+         "minSpan": 6,
+         "nullPointMode": "null",
+         "percentage": false,
+         "pointradius": 5,
+         "points": false,
+         "renderer": "flot",
+         "repeat": null,
+         "seriesOverrides": [ ],
+         "spaceLength": 10,
+         "span": 6,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$PROMETHEUS_DS",
+               "expr": "application_org_microsoft_fruit_FruitResource_addFruitCounter_total{env=\"$env\",job=\"$job\",instance=~\"$instance\"}",
+               "format": "time_series",
+               "intervalFactor": 2,
+               "legendFormat": "{{job}}/{{instance}} ",
+               "refId": "A"
+            }
+         ],
+         "thresholds": [ ],
+         "timeFrom": null,
+         "timeShift": null,
+         "title": "org.microsoft.fruit.FruitResource.addFruitCounter",
+         "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+         },
+         "type": "graph",
+         "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": [ ]
+         },
+         "yaxes": [
+            {
+               "decimals": 2,
+               "format": "short",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": 0,
+               "show": true
+            },
+            {
+               "decimals": 2,
+               "format": "short",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": 0,
+               "show": true
+            }
+         ]
+      },
+      {
+         "aliasColors": { },
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "-- Mixed --",
+         "decimals": 2,
+         "description": "A measure of how long it takes to perform the add fruit call",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 1
+         },
+         "id": 4,
+         "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sideWidth": null,
+            "total": false,
+            "values": true
+         },
+         "lines": true,
+         "linewidth": 1,
+         "links": [ ],
+         "minSpan": 6,
+         "nullPointMode": "null",
+         "percentage": false,
+         "pointradius": 5,
+         "points": false,
+         "renderer": "flot",
+         "repeat": null,
+         "seriesOverrides": [ ],
+         "spaceLength": 10,
+         "span": 6,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$PROMETHEUS_DS",
+               "expr": "application_org_microsoft_fruit_FruitResource_addFruitTimer_seconds{env=\"$env\",job=\"$job\",instance=~\"$instance\"}",
+               "format": "time_series",
+               "intervalFactor": 2,
+               "legendFormat": "{{job}}/{{instance}} q={{quantile}}/",
+               "refId": "A"
+            }
+         ],
+         "thresholds": [ ],
+         "timeFrom": null,
+         "timeShift": null,
+         "title": "org.microsoft.fruit.FruitResource.addFruitTimer",
+         "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+         },
+         "type": "graph",
+         "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": [ ]
+         },
+         "yaxes": [
+            {
+               "decimals": 2,
+               "format": "short",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": 0,
+               "show": true
+            },
+            {
+               "decimals": 2,
+               "format": "short",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": 0,
+               "show": true
+            }
+         ]
+      },
+      {
+         "aliasColors": { },
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "-- Mixed --",
+         "decimals": 2,
+         "description": "Number of getAll fruit calls",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 1
+         },
+         "id": 5,
+         "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sideWidth": null,
+            "total": false,
+            "values": true
+         },
+         "lines": true,
+         "linewidth": 1,
+         "links": [ ],
+         "minSpan": 6,
+         "nullPointMode": "null",
+         "percentage": false,
+         "pointradius": 5,
+         "points": false,
+         "renderer": "flot",
+         "repeat": null,
+         "seriesOverrides": [ ],
+         "spaceLength": 10,
+         "span": 6,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$PROMETHEUS_DS",
+               "expr": "application_org_microsoft_fruit_FruitResource_getAllFruitCounter_total{env=\"$env\",job=\"$job\",instance=~\"$instance\"}",
+               "format": "time_series",
+               "intervalFactor": 2,
+               "legendFormat": "{{job}}/{{instance}} ",
+               "refId": "A"
+            }
+         ],
+         "thresholds": [ ],
+         "timeFrom": null,
+         "timeShift": null,
+         "title": "org.microsoft.fruit.FruitResource.getAllFruitCounter",
+         "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+         },
+         "type": "graph",
+         "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": [ ]
+         },
+         "yaxes": [
+            {
+               "decimals": 2,
+               "format": "short",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": 0,
+               "show": true
+            },
+            {
+               "decimals": 2,
+               "format": "short",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": 0,
+               "show": true
+            }
+         ]
+      },
+      {
+         "aliasColors": { },
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "-- Mixed --",
+         "decimals": 2,
+         "description": "A measure of how long it takes to perform the getAll fruit call",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 1
+         },
+         "id": 6,
+         "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sideWidth": null,
+            "total": false,
+            "values": true
+         },
+         "lines": true,
+         "linewidth": 1,
+         "links": [ ],
+         "minSpan": 6,
+         "nullPointMode": "null",
+         "percentage": false,
+         "pointradius": 5,
+         "points": false,
+         "renderer": "flot",
+         "repeat": null,
+         "seriesOverrides": [ ],
+         "spaceLength": 10,
+         "span": 6,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$PROMETHEUS_DS",
+               "expr": "application_org_microsoft_fruit_FruitResource_getAllFruitTimer_seconds{env=\"$env\",job=\"$job\",instance=~\"$instance\"}",
+               "format": "time_series",
+               "intervalFactor": 2,
+               "legendFormat": "{{job}}/{{instance}} q={{quantile}}/",
+               "refId": "A"
+            }
+         ],
+         "thresholds": [ ],
+         "timeFrom": null,
+         "timeShift": null,
+         "title": "org.microsoft.fruit.FruitResource.getAllFruitTimer",
+         "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+         },
+         "type": "graph",
+         "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": [ ]
+         },
+         "yaxes": [
+            {
+               "decimals": 2,
+               "format": "short",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": 0,
+               "show": true
+            },
+            {
+               "decimals": 2,
+               "format": "short",
+               "label": null,
+               "logBase": 1,
+               "max": null,
+               "min": 0,
+               "show": true
+            }
+         ]
+      },
+      {
          "collapse": false,
          "collapsed": false,
          "gridPos": {
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 1
+            "y": 7
          },
-         "id": 3,
+         "id": 7,
          "panels": [ ],
          "repeat": null,
          "repeatIteration": null,
@@ -96,9 +464,9 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 2
+            "y": 8
          },
-         "id": 4,
+         "id": 8,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -180,9 +548,9 @@
             "h": 6,
             "w": 6,
             "x": 6,
-            "y": 2
+            "y": 8
          },
-         "id": 5,
+         "id": 9,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -255,9 +623,9 @@
             "h": 6,
             "w": 6,
             "x": 12,
-            "y": 2
+            "y": 8
          },
-         "id": 6,
+         "id": 10,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -347,9 +715,9 @@
             "h": 6,
             "w": 6,
             "x": 18,
-            "y": 2
+            "y": 8
          },
-         "id": 7,
+         "id": 11,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -439,9 +807,9 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 8
+            "y": 14
          },
-         "id": 8,
+         "id": 12,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -531,9 +899,9 @@
             "h": 6,
             "w": 6,
             "x": 6,
-            "y": 8
+            "y": 14
          },
-         "id": 9,
+         "id": 13,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -623,9 +991,9 @@
             "h": 6,
             "w": 6,
             "x": 12,
-            "y": 8
+            "y": 14
          },
-         "id": 10,
+         "id": 14,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -715,9 +1083,9 @@
             "h": 6,
             "w": 6,
             "x": 18,
-            "y": 8
+            "y": 14
          },
-         "id": 11,
+         "id": 15,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -807,9 +1175,9 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 14
+            "y": 20
          },
-         "id": 12,
+         "id": 16,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -892,9 +1260,9 @@
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 20
+            "y": 26
          },
-         "id": 13,
+         "id": 17,
          "panels": [ ],
          "repeat": null,
          "repeatIteration": null,
@@ -927,9 +1295,9 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 21
+            "y": 27
          },
-         "id": 14,
+         "id": 18,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -1002,9 +1370,9 @@
             "h": 6,
             "w": 6,
             "x": 6,
-            "y": 21
+            "y": 27
          },
-         "id": 15,
+         "id": 19,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -1094,9 +1462,9 @@
             "h": 6,
             "w": 6,
             "x": 12,
-            "y": 21
+            "y": 27
          },
-         "id": 16,
+         "id": 20,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -1195,9 +1563,9 @@
             "h": 6,
             "w": 6,
             "x": 18,
-            "y": 21
+            "y": 27
          },
-         "id": 17,
+         "id": 21,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -1279,9 +1647,9 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 27
+            "y": 33
          },
-         "id": 18,
+         "id": 22,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -1363,9 +1731,9 @@
             "h": 6,
             "w": 6,
             "x": 6,
-            "y": 27
+            "y": 33
          },
-         "id": 19,
+         "id": 23,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -1438,9 +1806,9 @@
             "h": 6,
             "w": 6,
             "x": 12,
-            "y": 27
+            "y": 33
          },
-         "id": 20,
+         "id": 24,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -1530,9 +1898,9 @@
             "h": 6,
             "w": 6,
             "x": 18,
-            "y": 27
+            "y": 33
          },
-         "id": 21,
+         "id": 25,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -1631,9 +1999,9 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 33
+            "y": 39
          },
-         "id": 22,
+         "id": 26,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -1706,9 +2074,9 @@
             "h": 6,
             "w": 6,
             "x": 6,
-            "y": 33
+            "y": 39
          },
-         "id": 23,
+         "id": 27,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -1798,9 +2166,9 @@
             "h": 6,
             "w": 6,
             "x": 12,
-            "y": 33
+            "y": 39
          },
-         "id": 24,
+         "id": 28,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -1890,9 +2258,9 @@
             "h": 6,
             "w": 6,
             "x": 18,
-            "y": 33
+            "y": 39
          },
-         "id": 25,
+         "id": 29,
          "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -1991,9 +2359,9 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 39
+            "y": 45
          },
-         "id": 26,
+         "id": 30,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -2075,9 +2443,9 @@
             "h": 6,
             "w": 6,
             "x": 6,
-            "y": 39
+            "y": 45
          },
-         "id": 27,
+         "id": 31,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -2159,9 +2527,9 @@
             "h": 6,
             "w": 6,
             "x": 12,
-            "y": 39
+            "y": 45
          },
-         "id": 28,
+         "id": 32,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -2338,6 +2706,6 @@
       ]
    },
    "timezone": "browser",
-   "title": "SmallRye MicroProfile Metrics 2020-12-05 19:15:12 UTC",
+   "title": "SmallRye MicroProfile Metrics 2020-12-06 12:00:41 UTC",
    "version": 0
 }

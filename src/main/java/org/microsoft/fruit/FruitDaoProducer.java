@@ -1,8 +1,5 @@
 package org.microsoft.fruit;
 
-import com.datastax.oss.driver.api.core.CqlIdentifier;
-import com.datastax.oss.quarkus.demo.FruitDaoReactiveImpl__MapperGenerated;
-import com.datastax.oss.quarkus.runtime.api.config.CassandraClientConfig;
 import com.datastax.oss.quarkus.runtime.api.session.QuarkusCqlSession;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -11,7 +8,7 @@ import javax.inject.Inject;
 public class FruitDaoProducer {
 
   private final FruitDao fruitDao;
-  private final FruitDaoReactive fruitDaoReactive;
+  // private final FruitDaoReactive fruitDaoReactive;
 
   @Inject
   public FruitDaoProducer(QuarkusCqlSession session) {
@@ -19,7 +16,7 @@ public class FruitDaoProducer {
     FruitMapper mapper = new FruitMapperBuilder(session).build();
     // instantiate our Daos
     fruitDao = mapper.fruitDao();
-    fruitDaoReactive = mapper.fruitDaoReactive();
+    // fruitDaoReactive = mapper.fruitDaoReactive();
   }
 
   @Produces
@@ -28,9 +25,9 @@ public class FruitDaoProducer {
     return fruitDao;
   }
 
-  @Produces
-  @ApplicationScoped
-  FruitDaoReactive produceFruitDaoReactive() {
-    return fruitDaoReactive;
-  }
+  // @Produces
+  // @ApplicationScoped
+  // FruitDaoReactive produceFruitDaoReactive() {
+  // return fruitDaoReactive;
+  // }
 }

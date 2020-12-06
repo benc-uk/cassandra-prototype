@@ -5,9 +5,12 @@ display:
     factor: 2.23694
 
 quarkus:
+  http:
+    port: 8080
   cassandra:
     contact-points: ["127.0.0.1:9042"]
     local-datacenter: datacenter1
+    keyspace: k1
   smallrye-health:
     ui:
       always-include: true

@@ -3,6 +3,8 @@ image:
   repo: benc-uk/java-cassandra-test
   tag: latest
 
+replicas: 1
+
 network:
   port: 8080
 service:

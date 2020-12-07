@@ -1,4 +1,5 @@
 cassandra:
+  replicaCount: 2
   persistence:
     enabled: false
 
@@ -6,6 +7,8 @@ prometheus:
   server:
     persistentVolume:
       enabled: false
+
+replicas: 4
 
 ingress:
   enabled: true

@@ -36,7 +36,7 @@ az container create -g $rg --name $aci_name \
   --azure-file-volume-account-name $sa_name \
   --azure-file-volume-account-key $STORAGE_KEY \
   --azure-file-volume-mount-path /home/k6 \
-  --environment-variables TEST_API_ENDPOINT=$endpoint TEST_STAGE_TIME=$test_time \
+  --environment-variables TEST_API_ENDPOINT=$test_endpoint TEST_STAGE_TIME=$test_time \
   --query "provisioningState" -o table
 
 echo -e "\n📜 Reading logs..."

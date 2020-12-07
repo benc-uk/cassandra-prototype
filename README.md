@@ -32,6 +32,18 @@ Helm chart in `./kubernetes/helm/testapp` carries out the following:
 
 - A Grafana dashboard `./kubernetes/helm/testapp/files/grafana-dashboard.json`, created via the generator in `./microprofile-grafana`. This is cloned from https://github.com/jamesfalkner/microprofile-grafana
 
+## Load Testing
+
+Using k6.io See `./testing/loadtest.js`
+
+Run with:
+
+```
+export TEST_API_ENDPOINT=https://localhost:8080
+export TEST_STAGE_TIME=10
+k6 run loadtest.js
+```
+
 ## Local Scripts
 
 `./scripts/cassandra-local.sh` - Starts Cassandra locally in Docker and creates required keyspace and table

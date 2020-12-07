@@ -26,11 +26,11 @@ Helm chart in `./kubernetes/helm/testapp` carries out the following:
 
 - The app exposes standard metrics using the [MicroProfile Metrics spec & Quarkus Plugin](https://quarkus.io/guides/microprofile-metrics)
 
-- The app REST controller also exposes some custom metrics around the REST operation counts and rates.
+- The app REST controller also exposes some custom app specific metrics, around the REST operation counts and timing.
 
 - These metrics can be scraped by Prometheus.
 
-- A Grafana dashboard `./kubernetes/helm/testapp/files/grafana-dashboard.json`, created via the generator in `./microprofile-grafana`
+- A Grafana dashboard `./kubernetes/helm/testapp/files/grafana-dashboard.json`, created via the generator in `./microprofile-grafana`. This is cloned from https://github.com/jamesfalkner/microprofile-grafana
 
 ## Local Scripts
 

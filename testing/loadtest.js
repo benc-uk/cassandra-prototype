@@ -11,8 +11,8 @@ export let options = {
   stages: [
     { duration: `${STAGE_TIME}s`, target: 10 },
     { duration: `${STAGE_TIME}s`, target: 20 },
-    { duration: `${STAGE_TIME}s`, target: 50 },
-    { duration: `${STAGE_TIME}s`, target: 80 },
+    { duration: `${STAGE_TIME}s`, target: 60 },
+    { duration: `${STAGE_TIME}s`, target: 100 },
     { duration: `${STAGE_TIME}s`, target: 0 },
   ],
   thresholds: {
@@ -25,7 +25,7 @@ export let options = {
 const API_ENDPOINT = __ENV.TEST_API_ENDPOINT || `http://localhost:8080`;
 
 // Globals
-var eventIds = {};
+var fruitNames = {};
 
 export function setup() {
   console.log(`Data API host tested is: ${API_ENDPOINT}`);
@@ -37,37 +37,52 @@ export default function () {
   //
   group("API Creates", function () {
     let url = `${API_ENDPOINT}/fruits`;
+    let name = `Fruit ${Math.floor(Math.random() * 900000)} ${__VU}.${__ITER}`;
     let payload = JSON.stringify({
       description: `Loadtesting data ${__VU}.${__ITER}`,
-      name: `Fruit ${Math.floor(Math.random() * 8000)}`,
+      name,
     });
 
     let res = http.post(url, payload, {
       headers: { "Content-Type": "application/json" },
+      tags: { name: "CreateFruit" },
     });
 
     check(res, {
-      "POST /fruits: status 204": (r) => r.status === 204,
-      // "POST /api/events: resp event is valid": (r) =>
-      //   JSON.parse(r.body).type === "event",
-      // "POST /api/events: resp event has ID": (r) =>
-      //   typeof JSON.parse(r.body)._id === "string",
+      "POST /fruits: status 200": (r) => r.status === 200,
+      "POST /fruits/{name}: new fruit is ok": (r) =>
+        typeof JSON.parse(r.body).name === "string",
     });
-    //eventIds[`${__VU}_${__ITER}`] = JSON.parse(res.body)._id;
+    fruitNames[`${__VU}_${__ITER}`] = name;
   });
 
   //
   // Loadtest with GET operations
   //
   group("API Reads", function () {
-    //let eventId = eventIds[`${__VU}_${__ITER}`];
-    let url = `${API_ENDPOINT}/fruits`;
+    let fruitName = fruitNames[`${__VU}_${__ITER}`];
+    let url = `${API_ENDPOINT}/fruits/${fruitName}`;
 
-    let res = http.get(url, { tags: { name: "GetFruits" } });
+    let res = http.get(url);
 
     check(res, {
       "GET /fruits: status 200": (r) => r.status === 200,
-      //"GET /api/events/{id}: fetched event is ok": (r) => JSON.parse(r.body)._id === eventId,
+      "GET /fruits/{name}: fetched fruit is correct": (r) =>
+        JSON.parse(r.body).name === fruitName,
+    });
+  });
+
+  //
+  // Loadtest with DELETE operations
+  //
+  group("API Deletes", function () {
+    let fruitName = fruitNames[`${__VU}_${__ITER}`];
+    let url = `${API_ENDPOINT}/fruits/${fruitName}`;
+
+    let res = http.del(url);
+
+    check(res, {
+      "DELETE /fruits/{name}: status 204": (r) => r.status === 204,
     });
   });
 }

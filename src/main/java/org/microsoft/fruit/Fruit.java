@@ -9,6 +9,7 @@ public class Fruit {
 
   @PartitionKey
   private String storeId;
+
   @ClusteringColumn
   private String name;
   private String description;

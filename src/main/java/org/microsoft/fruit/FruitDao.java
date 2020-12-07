@@ -9,5 +9,11 @@ public interface FruitDao {
   void update(Fruit fruit);
 
   @Select
+  PagingIterable<Fruit> findById(String id, String name);
+
+  @Select
   PagingIterable<Fruit> findById(String id);
+
+  @Delete(entityClass = Fruit.class, ifExists = true)
+  boolean deleteById(String id, String name);
 }

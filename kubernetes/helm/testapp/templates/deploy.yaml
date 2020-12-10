@@ -21,8 +21,8 @@ spec:
 
         resources:
           limits:
-            memory: "256Mi"
-            cpu: "500m"
+            memory: "512Mi"
+            cpu: "1000m"
 
         ports:
         - containerPort: {{ .Values.network.port }}
@@ -39,10 +39,12 @@ spec:
               secretKeyRef:
                 name: {{ .Release.Name }}-cassandra
                 key: cassandra-password
+          - name: PORT
+            value: "{{ .Values.network.port }}"
 
         livenessProbe:
           httpGet:
-            path: /
+            path: /status
             port: {{ .Values.network.port }}
         readinessProbe:
           httpGet:

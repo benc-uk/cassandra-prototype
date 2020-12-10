@@ -8,7 +8,7 @@ prometheus:
     persistentVolume:
       enabled: false
 
-replicas: 4
+replicas: 8
 
 ingress:
   enabled: true

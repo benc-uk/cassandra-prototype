@@ -34,8 +34,7 @@ go build \
 FROM alpine
 WORKDIR /app 
 
-ARG SERVICE_NAME="SET_ON_COMMAND_LINE"
-ARG SERVICE_PORT=9000
+ARG SERVICE_PORT=8080
 
 # Copy the Go server binary
 COPY --from=go-build /build/server . 

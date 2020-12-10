@@ -21,7 +21,7 @@ import (
 	_ "github.com/joho/godotenv/autoload" // Autoloads .env file if it exists
 )
 
-// API type is a wrap of the common base API with local implementation
+// API is an extended version of the apibase wrapping an order service
 type API struct {
 	*apibase.Base
 	service spec.OrderService
@@ -54,7 +54,7 @@ func main() {
 		impl.NewService(),
 	}
 
-	// Add routes for this service
+	// Add routes for this service (see routes.go)
 	api.addRoutes(router)
 
 	// Start server

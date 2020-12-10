@@ -1,3 +1,10 @@
+// ----------------------------------------------------------------------------
+// Copyright (c) Ben Coleman, 2020
+// Licensed under the MIT License.
+//
+// Mock of spec.OrderService
+// ----------------------------------------------------------------------------
+
 package mock
 
 import (

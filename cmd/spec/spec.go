@@ -1,6 +1,13 @@
+// ----------------------------------------------------------------------------
+// Copyright (c) Ben Coleman, 2020
+// Licensed under the MIT License.
+//
+// The spec for Order services and Order data entities (models)
+// ----------------------------------------------------------------------------
+
 package spec
 
-// Order holds stuff
+// Order is a model of an order
 type Order struct {
 	ID          string `json:"id"`
 	Product     string `json:"product"`

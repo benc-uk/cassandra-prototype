@@ -1,3 +1,10 @@
+// ----------------------------------------------------------------------------
+// Copyright (c) Ben Coleman, 2020
+// Licensed under the MIT License.
+//
+// Cassandra based implementation of spec.OrderService
+// ----------------------------------------------------------------------------
+
 package impl
 
 import (

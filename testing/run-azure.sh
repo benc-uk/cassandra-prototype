@@ -5,21 +5,22 @@ echo -e "━━━━━━━━━━━━━━━━━━━━━━━�
 echo -e "💥 Running a load test in Azure with k6 🚀"
 echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# Change as required
+# Azure parameters
 region=westeurope
 rg=loadtest
-prefix=ltbc45
+prefix=bcloadtest1210
+# Important parameters for the load test 
+test_endpoint=https://testapp.kube.benco.io
+test_stage_time=30
+influx_dbname=k6_results
+
+# No need to change these really
 sa_name=${prefix}store
 share_name_k6=loadtests
 share_name_influx=influx-data
 share_name_grafana=grafana-provisioning
 k6_name=${prefix}-k6runner
 influx_name=${prefix}-influx-grafana
-
-# Parameters for the load test 
-test_endpoint=https://testapp.kube.benco.io
-test_stage_time=30
-influx_dbname=k6_results
 
 echo -e "\n🔨 Creating base infra"
 az group create --name $rg --location $region -o table
@@ -50,6 +51,7 @@ az container create -g $rg --file /tmp/influx-grafana.yaml \
 influxdb_ip=$(az container show  -g $rg --name $influx_name --query "ipAddress.ip" -o tsv)
 echo -e "\n🌐 InfluxDB IP address: $influxdb_ip"
 echo -e "🌐 InfluxDB database: $influx_dbname"
+echo -e "🌐 Login to Grafana here: http://$influxdb_ip:3000/"
 
 echo -e "\n📦 Starting load test container..."
 az container create -g $rg --name $k6_name \

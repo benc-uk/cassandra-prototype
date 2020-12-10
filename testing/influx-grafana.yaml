@@ -23,8 +23,8 @@ properties:
         image: influxdb
         resources:
           requests:
-            cpu: 5
-            memoryInGb: 7
+            cpu: 3
+            memoryInGb: 5
         ports:
           - port: 8086
         volumeMounts:

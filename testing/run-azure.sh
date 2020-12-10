@@ -11,7 +11,7 @@ rg=loadtest
 prefix=bcloadtest1210
 # Important parameters for the load test 
 test_endpoint=https://testapp.kube.benco.io
-test_stage_time=30
+test_stage_time=35
 influx_dbname=k6_results
 
 # No need to change these really

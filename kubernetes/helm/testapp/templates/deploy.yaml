@@ -28,7 +28,13 @@ spec:
         - containerPort: {{ .Values.network.port }}
 
         env:
-          - name: QUARKUS_CASSANDRA_AUTH_PASSWORD
+          - name: CASSANDRA_CLUSTER
+            value: {{ .Release.Name }}-cassandra-headless
+          - name: CASSANDRA_KEYSPACE
+            value: k1
+          - name: CASSANDRA_USERNAME
+            value: cassandra
+          - name: CASSANDRA_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: {{ .Release.Name }}-cassandra
@@ -40,18 +46,5 @@ spec:
             port: {{ .Values.network.port }}
         readinessProbe:
           httpGet:
-            path: /health
+            path: /status
             port: {{ .Values.network.port }}
-
-        volumeMounts:
-        - name: app-config 
-          mountPath: "/deployments/config" 
-          readOnly: true
-
-      volumes:
-      - name: app-config
-        configMap:
-          name: {{ include "testapp.fullname" . }}
-          items:
-          - key: application.properties 
-            path: application.properties

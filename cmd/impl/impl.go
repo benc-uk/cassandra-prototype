@@ -19,19 +19,30 @@ type OrderService struct {
 // NewService creates a new OrderService
 //
 func NewService() *OrderService {
-	// Connect to the Cassandra cluster
+	// Gather config from env vars
 	cassandraHosts := env.GetEnvString("CASSANDRA_CLUSTER", "localhost")
 	keyspace := env.GetEnvString("CASSANDRA_KEYSPACE", "k1")
+	cassandraUser := env.GetEnvString("CASSANDRA_USERNAME", "")
+	cassandraPwd := env.GetEnvString("CASSANDRA_PASSWORD", "")
 
+	// Set up cluster connection
 	cluster := gocql.NewCluster(cassandraHosts)
 	cluster.Keyspace = keyspace
 	cluster.Consistency = gocql.Quorum
+	if cassandraUser != "" && cassandraPwd != "" {
+		cluster.Authenticator = gocql.PasswordAuthenticator{
+			Username: cassandraUser,
+			Password: cassandraPwd,
+		}
+	}
 
-	log.Printf("### Connecting to Cassandra cluster: %s / %s\n", cassandraHosts, keyspace)
+	// Connect to the Cassandra cluster
+	log.Printf("### Connecting to Cassandra cluster: %s / %s...\n", cassandraHosts, keyspace)
 	session, err := cluster.CreateSession()
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Printf("### Connected OK!\n")
 
 	return &OrderService{
 		Session:   session,

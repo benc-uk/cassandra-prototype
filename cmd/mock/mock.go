@@ -1,0 +1,59 @@
+package mock
+
+import (
+	"github.com/benc-uk/cassandra-sample/cmd/spec"
+	"github.com/benc-uk/cassandra-sample/pkg/problem"
+)
+
+// OrderService mock
+type OrderService struct {
+}
+
+// Fake data
+var mockOrder *spec.Order
+
+const MockOrderId = "820cfc30-929c-4b27-aab7-78e217ca3056"
+
+func init() {
+	mockOrder = &spec.Order{
+		ID:          MockOrderId,
+		Product:     "A nice hat",
+		Description: "I really want lots of hats",
+		Items:       42,
+	}
+}
+
+//
+// Get fetches order by ID
+//
+func (s OrderService) Get(id string) (*spec.Order, error) {
+	if id == MockOrderId {
+		return mockOrder, nil
+	} else {
+		return nil, problem.New("#mock", "not-found", 404, "not found", "orders")
+	}
+}
+
+//
+// Create new order
+//
+func (s OrderService) Create(order *spec.Order) (*spec.Order, error) {
+	return mockOrder, nil
+}
+
+//
+// Delete an order
+//
+func (s OrderService) Delete(id string) error {
+	return nil
+}
+
+//
+// Find all orders
+//
+func (s OrderService) Find(query string) ([]spec.Order, error) {
+	orders := make([]spec.Order, 0)
+	orders = append(orders, *mockOrder)
+	orders = append(orders, *mockOrder)
+	return orders, nil
+}

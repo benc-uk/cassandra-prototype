@@ -1,39 +1,19 @@
-#Maven
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-release.properties
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
 
-# Eclipse
-.project
-.classpath
-.settings/
-bin/
+# Test binary, built with `go test -c`
+*.test
 
-# IntelliJ
-.idea
-*.ipr
-*.iml
-*.iws
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
 
-# NetBeans
-nb-configuration.xml
+# Dependency directories (remove the comment below to include it)
+# vendor/
 
-# Visual Studio Code
-.vscode
-.factorypath
-
-# OSX
-.DS_Store
-
-# Vim
-*.swp
-*.swo
-
-# patch
-*.orig
-*.rej
-
-# extra
-.mvn/wrapper/*.jar
+cmd/tmp
+cmd/server
+output/**

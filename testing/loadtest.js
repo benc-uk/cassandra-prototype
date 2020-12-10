@@ -1,6 +1,6 @@
 import http from "k6/http";
 import { check } from "k6";
-import { group } from "k6";
+import { group, log } from "k6";
 
 //
 // Options, stages and thresholds for load test here
@@ -9,10 +9,12 @@ const STAGE_TIME = __ENV.TEST_STAGE_TIME || "20";
 export let options = {
   maxRedirects: 4,
   stages: [
-    { duration: `${STAGE_TIME}s`, target: 10 },
-    { duration: `${STAGE_TIME}s`, target: 20 },
-    { duration: `${STAGE_TIME}s`, target: 60 },
-    { duration: `${STAGE_TIME}s`, target: 100 },
+    { duration: `${STAGE_TIME}s`, target: 40 },
+    { duration: `${STAGE_TIME}s`, target: 80 },
+    { duration: `${STAGE_TIME}s`, target: 120 },
+    { duration: `${STAGE_TIME}s`, target: 120 },
+    { duration: `${STAGE_TIME}s`, target: 80 },
+    { duration: `${STAGE_TIME}s`, target: 40 },
     { duration: `${STAGE_TIME}s`, target: 0 },
   ],
   thresholds: {
@@ -25,10 +27,10 @@ export let options = {
 const API_ENDPOINT = __ENV.TEST_API_ENDPOINT || `http://localhost:8080`;
 
 // Globals
-var fruitNames = {};
+var orderIds = {};
 
 export function setup() {
-  console.log(`Data API host tested is: ${API_ENDPOINT}`);
+  console.log(`API host tested is: ${API_ENDPOINT}`);
 }
 
 export default function () {
@@ -36,39 +38,39 @@ export default function () {
   // Loadtest with POST operations
   //
   group("API Creates", function () {
-    let url = `${API_ENDPOINT}/fruits`;
-    let name = `Fruit ${Math.floor(Math.random() * 900000)} ${__VU}.${__ITER}`;
+    let url = `${API_ENDPOINT}/api/orders`;
     let payload = JSON.stringify({
-      description: `Loadtesting data ${__VU}.${__ITER}`,
-      name,
+      product: "Lemon Curd",
+      description: "An order for some delicious lemon curd",
+      items: Math.ceil(Math.random() * 100),
     });
 
     let res = http.post(url, payload, {
       headers: { "Content-Type": "application/json" },
-      tags: { name: "CreateFruit" },
     });
 
     check(res, {
-      "POST /fruits: status 200": (r) => r.status === 200,
-      "POST /fruits/{name}: new fruit is ok": (r) =>
-        typeof JSON.parse(r.body).name === "string",
+      "POST /api/orders: status 200": (r) => r.status === 200,
+      "POST /api/orders: new order is ok": (r) =>
+        typeof JSON.parse(r.body).id === "string",
     });
-    fruitNames[`${__VU}_${__ITER}`] = name;
+
+    orderIds[`${__VU}_${__ITER}`] = JSON.parse(res.body).id;
   });
 
   //
   // Loadtest with GET operations
   //
   group("API Reads", function () {
-    let fruitName = fruitNames[`${__VU}_${__ITER}`];
-    let url = `${API_ENDPOINT}/fruits/${fruitName}`;
+    let orderId = orderIds[`${__VU}_${__ITER}`];
+    let url = `${API_ENDPOINT}/api/orders/${orderId}`;
 
     let res = http.get(url);
 
     check(res, {
-      "GET /fruits: status 200": (r) => r.status === 200,
-      "GET /fruits/{name}: fetched fruit is correct": (r) =>
-        JSON.parse(r.body).name === fruitName,
+      "GET /api/orders: status 200": (r) => r.status === 200,
+      "GET /api/orders: fetched order is correct": (r) =>
+        JSON.parse(r.body).product === "Lemon Curd",
     });
   });
 
@@ -76,13 +78,13 @@ export default function () {
   // Loadtest with DELETE operations
   //
   group("API Deletes", function () {
-    let fruitName = fruitNames[`${__VU}_${__ITER}`];
-    let url = `${API_ENDPOINT}/fruits/${fruitName}`;
+    let orderId = orderIds[`${__VU}_${__ITER}`];
+    let url = `${API_ENDPOINT}/api/orders/${orderId}`;
 
     let res = http.del(url);
 
     check(res, {
-      "DELETE /fruits/{name}: status 204": (r) => r.status === 204,
+      "DELETE /api/orders: status 200": (r) => r.status === 200,
     });
   });
 }

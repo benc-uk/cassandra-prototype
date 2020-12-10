@@ -1,8 +1,8 @@
 ####################################################
-###  Java Quarkus Cassandra Prototype ☕ ⚡ ✨  ###
+###         Cassandra Prototype ☕ ⚡ ✨        ###
 ####################################################
 
-Test Quarkus Java app was installed 🤩
+Prototype app was deployed 🤩
 Plus: Cassandra, Prometheus & Grafana 🪁
 
 1. Application Details

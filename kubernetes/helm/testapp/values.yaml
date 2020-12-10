@@ -1,6 +1,6 @@
 image:
   reg: ghcr.io
-  repo: benc-uk/java-cassandra-test
+  repo: benc-uk/cassandra-prototype
   tag: latest
 
 replicas: 1
@@ -44,7 +44,5 @@ grafana:
   service:
     type: LoadBalancer
   sidecar:
-    dashboards:
-      enabled: true
     datasources:
       enabled: true

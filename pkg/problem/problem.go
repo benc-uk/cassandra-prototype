@@ -31,7 +31,7 @@ func New(url, title string, status int, detail, instance string) *Problem {
 }
 
 //
-// HTTPSend sends a RFC 7807 problem object as HTTP response
+// Send sends a RFC 7807 problem object as HTTP response
 //
 func (p *Problem) Send(resp http.ResponseWriter) {
 	log.Printf("### API %s", p.Error())

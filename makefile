@@ -7,6 +7,16 @@ PKG_DIR := pkg
 FRONTEND_DIR := web/frontend
 OUTPUT_DIR := ./output
 
+# Build details
+VERSION ?= 0.0.1
+BUILD_INFO ?= "Makefile build"
+
+# Most likely want to override these when calling `make docker`
+DOCKER_REG ?= ghcr.io
+DOCKER_REPO ?= benc-uk/cassandra-prototype
+DOCKER_TAG ?= latest
+DOCKER_PREFIX := $(DOCKER_REG)/$(DOCKER_REPO)
+
 ################################################################################
 # Lint check everything 
 ################################################################################
@@ -45,3 +55,20 @@ reports :
 	npx xunit-viewer -r $(OUTPUT_DIR)/unit-tests.xml -o $(OUTPUT_DIR)/unit-tests.html
 	go tool cover -html=$(OUTPUT_DIR)/coverage -o $(OUTPUT_DIR)/cover.html
 	cp testing/reports.html $(OUTPUT_DIR)/index.html
+
+################################################################################
+# Build Docker image
+################################################################################
+.PHONY: docker
+docker :
+	docker build . -f Dockerfile \
+	--build-arg VERSION=$(VERSION) \
+	--build-arg BUILD_INFO='$(BUILD_INFO)' \
+	-t $(DOCKER_PREFIX):$(DOCKER_TAG)
+
+################################################################################
+# Push Docker image
+################################################################################
+.PHONY: push
+push :
+	docker push $(DOCKER_PREFIX):$(DOCKER_TAG)

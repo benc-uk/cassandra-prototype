@@ -18,6 +18,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Test holds parameters for an API test
 type Test struct {
 	Name           string
 	URL            string
@@ -28,6 +29,9 @@ type Test struct {
 	CheckStatus    int
 }
 
+//
+// Run a set of test cases against mux HTTP router
+//
 func Run(t *testing.T, router *mux.Router, testCases []Test) {
 	for _, test := range testCases {
 		t.Run(test.Name, func(t *testing.T) {

@@ -129,6 +129,9 @@ func (api *Base) loggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+//
+// Send helper for returning JSON over the API
+//
 func (api *Base) Send(data interface{}, resp http.ResponseWriter) {
 	resp.Header().Set("Content-Type", "application/json")
 	json, _ := json.Marshal(data)

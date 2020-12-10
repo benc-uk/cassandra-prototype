@@ -12,11 +12,12 @@ type OrderService struct {
 // Fake data
 var mockOrder *spec.Order
 
-const MockOrderId = "820cfc30-929c-4b27-aab7-78e217ca3056"
+// MockOrderID is a static order id for testing
+const MockOrderID = "820cfc30-929c-4b27-aab7-78e217ca3056"
 
 func init() {
 	mockOrder = &spec.Order{
-		ID:          MockOrderId,
+		ID:          MockOrderID,
 		Product:     "A nice hat",
 		Description: "I really want lots of hats",
 		Items:       42,
@@ -27,11 +28,10 @@ func init() {
 // Get fetches order by ID
 //
 func (s OrderService) Get(id string) (*spec.Order, error) {
-	if id == MockOrderId {
+	if id == MockOrderID {
 		return mockOrder, nil
-	} else {
-		return nil, problem.New("#mock", "not-found", 404, "not found", "orders")
 	}
+	return nil, problem.New("#mock", "not-found", 404, "not found", "orders")
 }
 
 //

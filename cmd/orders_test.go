@@ -39,7 +39,7 @@ func TestOrders(t *testing.T) {
 var testCases = []apitests.Test{
 	{
 		Name:           "get an existing order",
-		URL:            "/api/orders/" + mock.MockOrderId,
+		URL:            "/api/orders/" + mock.MockOrderID,
 		Method:         "GET",
 		Body:           "",
 		CheckBody:      "items",

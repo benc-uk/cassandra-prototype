@@ -17,8 +17,6 @@ import (
 	"github.com/benc-uk/cassandra-sample/pkg/apibase"
 	"github.com/benc-uk/cassandra-sample/pkg/env"
 
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-
 	"github.com/gorilla/mux"
 	_ "github.com/joho/godotenv/autoload" // Autoloads .env file if it exists
 )
@@ -51,16 +49,14 @@ func main() {
 	router := mux.NewRouter()
 
 	// Wrapper API with anonymous inner new Base API
+	service := impl.NewService()
 	api := API{
 		apibase.New(serviceName, version, buildInfo, healthy, router),
-		impl.NewService(),
+		service,
 	}
 
 	// Add routes for this service (see routes.go)
-	api.addRoutes(router)
-
-	// Add promhttp metrics handler
-	router.Handle("/metrics", promhttp.Handler())
+	api.addRoutes()
 
 	// Root handler
 	router.HandleFunc("/", func(resp http.ResponseWriter, req *http.Request) {
@@ -73,6 +69,14 @@ func main() {
 			return nil
 		})
 	})
+
+	// Polling loop for calling service health checks and updating the API
+	go func() {
+		for {
+			api.Healthy = service.HealthCheck()
+			time.Sleep(5 * time.Second)
+		}
+	}()
 
 	// Start server
 	log.Printf("### Server listening on %v\n", serverPort)

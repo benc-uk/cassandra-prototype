@@ -30,7 +30,7 @@ func TestOrders(t *testing.T) {
 		apibase.New("orders", "ignore", "ignore", true, router),
 		mockOrdersSvc,
 	}
-	api.addRoutes(router)
+	api.addRoutes()
 
 	// Use apitest helper to run tests against the HTTP router
 	apitests.Run(t, router, testCases)

@@ -14,7 +14,11 @@ import (
 	"os"
 	"runtime"
 
+	"github.com/benc-uk/cassandra-sample/pkg/problem"
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // Base holds a standard set of values for all services & APIs
@@ -23,26 +27,53 @@ type Base struct {
 	Healthy     bool
 	Version     string
 	BuildInfo   string
+	Router      *mux.Router
 }
 
 //
 // New creates and returns a new Base API instance
 //
-func New(name, ver, info string, healthy bool, router *mux.Router) *Base {
-	b := &Base{
+func New(name, ver, info string, healthy bool, rootRouter *mux.Router) *Base {
+	base := &Base{
 		ServiceName: name,
 		Healthy:     healthy,
 		Version:     ver,
 		BuildInfo:   info,
+		// This is a subrouter for this service, e.g. `/api/users` or `/api/cheese`
+		Router: rootRouter.PathPrefix("/api/" + name).Subrouter(),
 	}
-	router.HandleFunc("/healthz", b.HealthCheck)
-	router.HandleFunc("/api/healthz", b.HealthCheck)
-	router.HandleFunc("/status", b.Status)
-	router.HandleFunc("/api/status", b.Status)
 
-	// Add middleware for logging
-	router.Use(b.loggingMiddleware)
-	return b
+	// Simple body-less health endpoints
+	rootRouter.HandleFunc("/healthz", base.HealthCheck)
+	rootRouter.HandleFunc("/api/healthz", base.HealthCheck)
+
+	// Status & debug details
+	rootRouter.HandleFunc("/status", base.Status)
+	rootRouter.HandleFunc("/api/status", base.Status)
+
+	// Add middleware for logging (only on service API)
+	base.Router.Use(base.loggingMiddleware)
+
+	// Add promhttp metrics handler
+	rootRouter.Handle("/metrics", promhttp.Handler())
+
+	durationHistogram := promauto.NewHistogramVec(prometheus.HistogramOpts{
+		Name:        "response_duration_seconds",
+		Help:        "A histogram of request latencies.",
+		Buckets:     []float64{.001, .01, .1, .2, .5, 1, 2, 5},
+		ConstLabels: prometheus.Labels{"handler": name},
+	}, []string{"method"})
+
+	// Add middleware for tracking metrics on service API
+	base.Router.Use(func(next http.Handler) http.Handler {
+		return base.metricMiddleware(next, durationHistogram)
+	})
+
+	return base
+}
+
+func (api *Base) updateHealth(healthy bool) {
+	api.Healthy = healthy
 }
 
 //
@@ -130,10 +161,22 @@ func (api *Base) loggingMiddleware(next http.Handler) http.Handler {
 }
 
 //
-// Send helper for returning JSON over the API
+// Middleware that adds Prometheus metrics to all requests
+//
+func (api *Base) metricMiddleware(next http.Handler, histVec *prometheus.HistogramVec) http.Handler {
+
+	return promhttp.InstrumentHandlerDuration(histVec, next)
+}
+
+//
+// Send is a trivial helper for returning JSON over the API
 //
 func (api *Base) Send(data interface{}, resp http.ResponseWriter) {
 	resp.Header().Set("Content-Type", "application/json")
-	json, _ := json.Marshal(data)
+	json, err := json.Marshal(data)
+	if err != nil {
+		problem.New("#json", "json-marshal", 500, err.Error(), "-").Send(resp)
+		return
+	}
 	resp.Write(json)
 }

@@ -20,6 +20,7 @@ import (
 type OrderService struct {
 	Session   *gocql.Session
 	tableName string
+	healthy   bool
 }
 
 //
@@ -126,4 +127,18 @@ func (s OrderService) Find(query string) ([]spec.Order, error) {
 	}
 
 	return orders, nil
+}
+
+//
+// HealthCheck the service, by checking Cassandra system table
+//
+func (s OrderService) HealthCheck() bool {
+	var clusterName string
+	query := s.Session.Query(`SELECT cluster_name FROM system.local;`).Consistency(gocql.One)
+	err := query.Scan(&clusterName)
+	if err != nil {
+		return false
+	}
+
+	return clusterName != ""
 }

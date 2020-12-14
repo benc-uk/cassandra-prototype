@@ -64,3 +64,10 @@ func (s OrderService) Find(query string) ([]spec.Order, error) {
 	orders = append(orders, *mockOrder)
 	return orders, nil
 }
+
+//
+// HealthCheck the service
+//
+func (s OrderService) HealthCheck() bool {
+	return true
+}

@@ -37,11 +37,11 @@ var (
 //
 // All routes we need should be registered here
 //
-func (api API) addRoutes(router *mux.Router) {
-	router.HandleFunc("/api/orders/{id}", api.getOrder).Methods("GET")
-	router.HandleFunc("/api/orders", api.newOrder).Methods("POST")
-	router.HandleFunc("/api/orders/{id}", api.deleteOrder).Methods("DELETE")
-	router.HandleFunc("/api/orders", api.getAll).Methods("GET")
+func (api API) addRoutes() {
+	api.Router.PathPrefix("/{id}").Methods("GET").HandlerFunc(api.getOrder)
+	api.Router.PathPrefix("").Methods("POST").HandlerFunc(api.newOrder)
+	api.Router.PathPrefix("/{id}").Methods("DELETE").HandlerFunc(api.deleteOrder)
+	api.Router.PathPrefix("").Methods("GET").HandlerFunc(api.getAll)
 }
 
 //
@@ -56,6 +56,7 @@ func (api API) getOrder(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	//api.service.HealthCheck()
 	metricOrderGetTotal.Inc()
 	api.Send(order, resp)
 }

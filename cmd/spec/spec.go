@@ -21,4 +21,5 @@ type OrderService interface {
 	Create(*Order) (*Order, error)
 	Delete(string) error
 	Find(string) ([]Order, error)
+	HealthCheck() bool
 }

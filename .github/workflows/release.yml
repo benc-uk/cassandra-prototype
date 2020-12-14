@@ -3,26 +3,27 @@ name: Deploy to AKS
 on:
   workflow_dispatch:
     inputs:
-      imageRef:
+      imageTag:
         required: true
         default: latest
-        description: Fully qualified image to be deployed
+        description: Tag image to be deployed
 
 env:
+  DOCKER_REG: ghcr.io
+  DOCKER_REPO: benc-uk/cassandra-prototype
   AKS_NAME: benc
   AKS_RESGRP: aks
   RELEASE_NAME: app
-  NAMESPACE: proto
+  DOMAIN_SUFFIX: kube.benco.io
 
 jobs:
-  # ==================================================================================
-  # Continuous deployment job - deploy to AKS test namespace
-  # ==================================================================================
-  deploy:
-    name: Deploy to Test Environment
+  deploy-test:
+    name: Deploy to Test
+    env:
+      NAMESPACE: proto-test
     environment:
       name: "AKS: proto"
-      url: "https://protoapp.kube.benco.io/"
+      url: "https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}/"
 
     runs-on: ubuntu-latest
     steps:
@@ -32,7 +33,7 @@ jobs:
       - name: "Connect to AKS"
         uses: azure/aks-set-context@v1
         with:
-          creds: "${{ secrets.AZURE_CREDENTIALS }}" # Azure credentials
+          creds: "${{ secrets.AZURE_CREDENTIALS }}"
           resource-group: "${{ env.AKS_RESGRP }}"
           cluster-name: "${{ env.AKS_NAME }}"
         id: login
@@ -42,6 +43,59 @@ jobs:
           helm repo add stable https://charts.helm.sh/stable
           helm dep update kubernetes/helm/cassandra-go-api
 
-      - name: "Helm install release"
+      - name: "Helm install into ${{ env.NAMESPACE }}"
         run: |
-          helm upgrade $RELEASE_NAME kubernetes/helm/cassandra-go-api --install --namespace $NAMESPACE -f kubernetes/helm/app-values.yaml
+          helm upgrade --install $RELEASE_NAME \
+          kubernetes/helm/cassandra-go-api \
+          --namespace $NAMESPACE \
+          --values kubernetes/helm/app-values.yaml \
+          --set "image.reg=${{ env.DOCKER_REG }},image.repo=${{ env.DOCKER_REPO }},image.tag=${{ github.event.inputs.imageTag }},ingress.hosts[0].host=$NAMESPACE.$DOMAIN_SUFFIX,ingress.tls[0].hosts[0]=$NAMESPACE.$DOMAIN_SUFFIX"
+
+  api-test:
+    name: Run API Test
+    needs: deploy-test
+    env:
+      NAMESPACE: proto-test
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v1
+
+      - name: "Run API tests"
+        run: npx newman run testing/api/postman.json --global-var API_ENDPOINT="https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}"
+
+  deploy-staging:
+    name: Deploy to Staging
+    needs: api-test
+    env:
+      NAMESPACE: proto-staging
+    environment:
+      name: "AKS: staging"
+      url: "https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}/"
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v1
+
+      - name: "Connect to AKS"
+        uses: azure/aks-set-context@v1
+        with:
+          creds: "${{ secrets.AZURE_CREDENTIALS }}"
+          resource-group: "${{ env.AKS_RESGRP }}"
+          cluster-name: "${{ env.AKS_NAME }}"
+        id: login
+
+      - name: "Helm dep update"
+        run: |
+          helm repo add stable https://charts.helm.sh/stable
+          helm dep update kubernetes/helm/cassandra-go-api
+
+      - name: "Helm install into ${{ env.NAMESPACE }}"
+        run: |
+          helm upgrade --install $RELEASE_NAME \
+          kubernetes/helm/cassandra-go-api \
+          --namespace $NAMESPACE \
+          --values kubernetes/helm/app-values.yaml \
+          --set "image.reg=${{ env.DOCKER_REG }},image.repo=${{ env.DOCKER_REPO }},image.tag=${{ github.event.inputs.imageTag }},ingress.hosts[0].host=$NAMESPACE.$DOMAIN_SUFFIX,ingress.tls[0].hosts[0]=$NAMESPACE.$DOMAIN_SUFFIX"

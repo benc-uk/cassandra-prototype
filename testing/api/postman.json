@@ -1,0 +1,425 @@
+{
+	"info": {
+		"_postman_id": "afa15d64-287f-4ca8-be64-dcfe9d44db58",
+		"name": "Cassandra Prototype",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "New Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "01e3ac5e-5b09-49f8-8e45-62cc4f613b6e",
+						"exec": [
+							"pm.test(\"Orders POST: Response is OK, with JSON body\", function () {",
+							"     pm.response.to.be.ok;",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Orders POST: New order has ID\", function () {",
+							"    var order = pm.response.json();",
+							"    pm.expect(order.id).to.not.be.empty;",
+							"    // Put event id into variable to be used by next test (Delete Event)",
+							"    pm.environment.set(\"ORDER_ID\", order.id);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2c3d3f9e-efd1-4c89-b4d2-a0301d1a2c76",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"product\": \"{{$randomWords}}\",\n  \"description\": \"An order for some {{$randomAdjective}} {{$randomCatchPhraseNoun}}\",\n  \"items\": {{$randomInt}}\n}\n"
+				},
+				"url": {
+					"raw": "{{API_ENDPOINT}}/api/orders",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "New Event Example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"This is an example event\",\n    \"type\": \"event\",\n    \"start\": \"2018-01-01\",\n    \"end\": \"2018-07-20\",\n    \"topics\": [\n      {\n        \"id\": 1,\n        \"desc\": \"Blah blah a topic\"\n      },\n      {\n        \"id\": 2,\n        \"desc\": \"Another session\"        \n      }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://{{smilr-api-host}}/api/events",
+							"protocol": "http",
+							"host": [
+								"{{smilr-api-host}}"
+							],
+							"path": [
+								"api",
+								"events"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "185",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 18 Mar 2018 19:35:23 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"b9-eS+gYVlJmbQfQ7wipok5PLs3Qzg\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"body": "{\"title\":\"This is an example event\",\"type\":\"event\",\"start\":\"2018-01-01\",\"end\":\"2018-07-20\",\"topics\":[{\"id\":1,\"desc\":\"Blah blah a topic\"},{\"id\":2,\"desc\":\"Another session\"}],\"id\":\"Chw8k\"}"
+				}
+			]
+		},
+		{
+			"name": "Get Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a567e7dc-b888-44aa-952d-6b616d939d00",
+						"exec": [
+							"pm.test(\"Orders GET: Response is OK, with JSON body\", function () {",
+							"     pm.response.to.be.ok;",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Orders GET: order has product\", function () {",
+							"    var order = pm.response.json();",
+							"    pm.expect(order.product).to.not.be.empty;",
+							"});",
+							"",
+							"pm.test(\"Orders GET: order has more than zero items\", function () {",
+							"    var order = pm.response.json();",
+							"    pm.expect(order.items).to.be.greaterThan(0)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a0385298-e470-49e8-8af0-83f2a95fab1a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{API_ENDPOINT}}/api/orders/{{ORDER_ID}}",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"api",
+						"orders",
+						"{{ORDER_ID}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "New Event Example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"This is an example event\",\n    \"type\": \"event\",\n    \"start\": \"2018-01-01\",\n    \"end\": \"2018-07-20\",\n    \"topics\": [\n      {\n        \"id\": 1,\n        \"desc\": \"Blah blah a topic\"\n      },\n      {\n        \"id\": 2,\n        \"desc\": \"Another session\"        \n      }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://{{smilr-api-host}}/api/events",
+							"protocol": "http",
+							"host": [
+								"{{smilr-api-host}}"
+							],
+							"path": [
+								"api",
+								"events"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "185",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 18 Mar 2018 19:35:23 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"b9-eS+gYVlJmbQfQ7wipok5PLs3Qzg\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"body": "{\"title\":\"This is an example event\",\"type\":\"event\",\"start\":\"2018-01-01\",\"end\":\"2018-07-20\",\"topics\":[{\"id\":1,\"desc\":\"Blah blah a topic\"},{\"id\":2,\"desc\":\"Another session\"}],\"id\":\"Chw8k\"}"
+				}
+			]
+		},
+		{
+			"name": "Delete Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "90c2145b-0b12-4367-9ea8-54d0f57c9148",
+						"exec": [
+							"pm.test(\"Orders DELETE: Response is OK, with JSON body\", function () {",
+							"     pm.response.to.be.ok;",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a932b27a-f975-4209-bcb5-784cd8a848a7",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{API_ENDPOINT}}/api/orders/{{ORDER_ID}}",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"api",
+						"orders",
+						"{{ORDER_ID}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "New Event Example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"This is an example event\",\n    \"type\": \"event\",\n    \"start\": \"2018-01-01\",\n    \"end\": \"2018-07-20\",\n    \"topics\": [\n      {\n        \"id\": 1,\n        \"desc\": \"Blah blah a topic\"\n      },\n      {\n        \"id\": 2,\n        \"desc\": \"Another session\"        \n      }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://{{smilr-api-host}}/api/events",
+							"protocol": "http",
+							"host": [
+								"{{smilr-api-host}}"
+							],
+							"path": [
+								"api",
+								"events"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "185",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 18 Mar 2018 19:35:23 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"b9-eS+gYVlJmbQfQ7wipok5PLs3Qzg\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"body": "{\"title\":\"This is an example event\",\"type\":\"event\",\"start\":\"2018-01-01\",\"end\":\"2018-07-20\",\"topics\":[{\"id\":1,\"desc\":\"Blah blah a topic\"},{\"id\":2,\"desc\":\"Another session\"}],\"id\":\"Chw8k\"}"
+				}
+			]
+		}
+	],
+	"protocolProfileBehavior": {}
+}

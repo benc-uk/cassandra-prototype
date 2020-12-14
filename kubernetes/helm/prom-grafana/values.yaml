@@ -21,6 +21,7 @@ prometheus:
         source_labels:
         - __meta_kubernetes_pod_name
         target_label: kubernetes_pod_name
+
 grafana:
   service:
     type: LoadBalancer

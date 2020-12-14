@@ -27,5 +27,6 @@ cassandra:
     datacenter: datacenter1 # No effect due to this bug https://github.com/bitnami/charts/issues/4408
   dbUser:
     user: cassandra
+    password: cassandra # Hardcoded only to make `helm upgrade` be less of a pain in the arse
   # This creates the keyspace and orders table
   initDBConfigMap: cassandra-db-init

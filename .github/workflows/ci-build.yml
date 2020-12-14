@@ -9,7 +9,6 @@ on:
 env:
   DOCKER_REG: ghcr.io
   DOCKER_REPO: benc-uk/cassandra-prototype
-  #DOCKER_TAG: latest
 
 jobs:
   check:
@@ -67,4 +66,4 @@ jobs:
         with:
           workflow: Deploy to AKS
           token: ${{ secrets.DEPLOYMENT_PAT }}
-          inputs: '{ "imageRef": "${{ env.DOCKER_REG }}/${{ env.DOCKER_REPO }}:${{ env.DOCKER_TAG }}" }'
+          inputs: '{ "imageTag": "${{ env.DOCKER_TAG }}" }'

@@ -3,7 +3,7 @@
 
 ### Create an order
 # @name createOrder
-POST {{endpoint}}/api/orders
+POST {{endpoint}}/api/orders/
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 #@orderId = wewewew
 
 ### Get an order
-GET {{endpoint}}/api/orders/{{orderId}}
+GET {{endpoint}}//api/orders/{{orderId}}
 
 ### Delete an order
 DELETE {{endpoint}}/api/orders/{{orderId}}

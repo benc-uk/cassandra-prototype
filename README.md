@@ -9,6 +9,8 @@ The `pkg` tree of the repo contains supporting packages providing; API base serv
 
 This cmd and pkg structure, follows the [golang-standards/project-layout](https://github.com/golang-standards/project-layout)
 
+![CI & Build](https://github.com/benc-uk/cassandra-prototype/workflows/CI%20&%20Build/badge.svg?branch=main)
+
 ## Local Quick Start
 
 Ensure you have Docker running locally

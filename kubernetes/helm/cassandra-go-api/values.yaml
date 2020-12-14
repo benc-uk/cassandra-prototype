@@ -27,4 +27,5 @@ cassandra:
     datacenter: datacenter1 # No effect due to this bug https://github.com/bitnami/charts/issues/4408
   dbUser:
     user: cassandra
+  # This creates the keyspace and orders table
   initDBConfigMap: cassandra-db-init

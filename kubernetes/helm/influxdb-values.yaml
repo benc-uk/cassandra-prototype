@@ -1,9 +1,9 @@
 # HOWTO:
 # helm repo add influxdata https://helm.influxdata.com/
 # helm install influx influxdata/influxdb -f ./influxdb-values.yaml
-#
 
 service:
+  # Doesn't work well as a ingress
   type: LoadBalancer
 
 persistence:

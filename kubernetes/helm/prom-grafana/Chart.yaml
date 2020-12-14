@@ -1,6 +1,6 @@
 apiVersion: v2
-name: testapp
-description: A test chart
+name: prom-grafana
+description: A wrapper chart for deploying Prometheus & Grafana
 type: application
 
 version: 0.1.0

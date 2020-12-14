@@ -9,7 +9,7 @@ on:
 env:
   DOCKER_REG: ghcr.io
   DOCKER_REPO: benc-uk/cassandra-prototype
-  DOCKER_TAG: latest
+  #DOCKER_TAG: latest
 
 jobs:
   check:
@@ -46,6 +46,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: "Create datestamp image tag" # Nicer than using github runid, I think
+        run: echo "DOCKER_TAG=$(date +%d-%m-%Y.%H%M)" >> $GITHUB_ENV
+
       - name: "Build Image"
         run: docker build -f Dockerfile -t $DOCKER_REG/$DOCKER_REPO:$DOCKER_TAG .
 
@@ -58,3 +61,10 @@ jobs:
 
       - name: "Push Image"
         run: docker push  $DOCKER_REG/$DOCKER_REPO
+
+      - name: Trigger deployment with workflows_dispatch
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Deploy to AKS
+          token: ${{ secrets.DEPLOYMENT_PAT }}
+          inputs: '{ "imageRef": "${{ env.DOCKER_REG }}/${{ env.DOCKER_REPO }}:${{ env.DOCKER_TAG }}" }'

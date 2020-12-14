@@ -1,0 +1,47 @@
+name: Deploy to AKS
+
+on:
+  workflow_dispatch:
+    inputs:
+      imageRef:
+        required: true
+        default: latest
+        description: Fully qualified image to be deployed
+
+env:
+  AKS_NAME: benc
+  AKS_RESGRP: aks
+  RELEASE_NAME: app
+  NAMESPACE: proto
+
+jobs:
+  # ==================================================================================
+  # Continuous deployment job - deploy to AKS test namespace
+  # ==================================================================================
+  deploy:
+    name: Deploy to Test Environment
+    environment:
+      name: "AKS: proto"
+      url: "https://protoapp.kube.benco.io/"
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v1
+
+      - name: "Connect to AKS"
+        uses: azure/aks-set-context@v1
+        with:
+          creds: "${{ secrets.AZURE_CREDENTIALS }}" # Azure credentials
+          resource-group: "${{ env.AKS_RESGRP }}"
+          cluster-name: "${{ env.AKS_NAME }}"
+        id: login
+
+      - name: "Helm dep update"
+        run: |
+          helm repo add stable https://charts.helm.sh/stable
+          helm dep update kubernetes/helm/cassandra-go-api
+
+      - name: "Helm install release"
+        run: |
+          helm upgrade $RELEASE_NAME kubernetes/helm/cassandra-go-api --install --namespace $NAMESPACE -f kubernetes/helm/app-values.yaml

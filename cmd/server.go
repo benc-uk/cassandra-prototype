@@ -17,6 +17,8 @@ import (
 	"github.com/benc-uk/cassandra-sample/pkg/apibase"
 	"github.com/benc-uk/cassandra-sample/pkg/env"
 
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/gorilla/mux"
 	_ "github.com/joho/godotenv/autoload" // Autoloads .env file if it exists
 )
@@ -57,6 +59,21 @@ func main() {
 	// Add routes for this service (see routes.go)
 	api.addRoutes(router)
 
+	// Add promhttp metrics handler
+	router.Handle("/metrics", promhttp.Handler())
+
+	// Root handler
+	router.HandleFunc("/", func(resp http.ResponseWriter, req *http.Request) {
+		resp.Header().Set("Content-Type", "text/html")
+		resp.Write([]byte(`<h3>API server is alive!</h3>`))
+
+		router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
+			path, _ := route.GetPathTemplate()
+			resp.Write([]byte(fmt.Sprintf("<li><a href='%s'>%s</a></li>", path, path)))
+			return nil
+		})
+	})
+
 	// Start server
 	log.Printf("### Server listening on %v\n", serverPort)
 	srv := &http.Server{
@@ -66,6 +83,7 @@ func main() {
 		ReadTimeout:  10 * time.Second,
 		IdleTimeout:  10 * time.Second,
 	}
+
 	err := srv.ListenAndServe()
 	if err != nil {
 		log.Fatal(err.Error())

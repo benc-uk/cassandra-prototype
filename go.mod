@@ -6,5 +6,6 @@ require (
 	github.com/gocql/gocql v0.0.0-20201209090715-f485b5f9159c
 	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.3.0
+	github.com/prometheus/client_golang v1.8.0
 	github.com/stretchr/testify v1.5.1 // indirect
 )

@@ -15,6 +15,23 @@ import (
 	"github.com/benc-uk/cassandra-sample/cmd/spec"
 	"github.com/benc-uk/cassandra-sample/pkg/problem"
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+)
+
+var (
+	metricOrderGetTotal = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "order_get_total",
+		Help: "The total number of order get events",
+	})
+	metricOrderCreateTotal = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "order_create_total",
+		Help: "The total number of order create events",
+	})
+	metricOrderDeleteTotal = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "order_delete_total",
+		Help: "The total number of order delete events",
+	})
 )
 
 //
@@ -39,6 +56,7 @@ func (api API) getOrder(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	metricOrderGetTotal.Inc()
 	api.Send(order, resp)
 }
 
@@ -66,6 +84,7 @@ func (api API) newOrder(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	metricOrderCreateTotal.Inc()
 	api.Send(order, resp)
 }
 
@@ -80,6 +99,7 @@ func (api API) deleteOrder(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	metricOrderDeleteTotal.Inc()
 	api.Send(map[string]string{
 		"message": "deleted OK",
 	}, resp)

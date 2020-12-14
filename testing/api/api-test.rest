@@ -1,14 +1,8 @@
 #@endpoint = http://localhost:8080
 @endpoint = https://protoapp.kube.benco.io
 
-### Get an order
-GET {{endpoint}}/api/orders/b902dee0-013f-48ac-8ddb-28226e26e0d3
-
-### Get all orders!
-GET {{endpoint}}/api/orders
-
-
 ### Create an order
+# @name createOrder
 POST {{endpoint}}/api/orders
 Content-Type: application/json
 
@@ -18,5 +12,14 @@ Content-Type: application/json
   "items": {{$randomInt 1 200}}
 }
 
+@orderId = {{createOrder.response.body.id}}
+#@orderId = wewewew
+
+### Get an order
+GET {{endpoint}}/api/orders/{{orderId}}
+
 ### Delete an order
-DELETE {{endpoint}}/api/orders/2f75ca1a-4aa5-4b0c-8ce5-f29662843962
+DELETE {{endpoint}}/api/orders/{{orderId}}
+
+### Get all orders!
+GET {{endpoint}}/api/orders

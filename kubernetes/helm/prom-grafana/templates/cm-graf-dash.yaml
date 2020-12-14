@@ -31,3 +31,15 @@ metadata:
 data:
   k8s-nodes.json: |-
 {{ .Files.Get "dashboards/k8s-nodes.json" | indent 4 }}
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: app-dashboard
+  labels:
+    grafana_dashboard: "1"
+data:
+  api-app.json: |-
+{{ .Files.Get "dashboards/api-app.json" | indent 4 }}

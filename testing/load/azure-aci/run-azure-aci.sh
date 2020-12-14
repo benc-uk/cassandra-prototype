@@ -33,7 +33,7 @@ az storage share create --name $share_name_influx -o table
 az storage share create --name $share_name_grafana -o table
 
 echo -e "\n📂 Uploading load test & config files"
-az storage file upload --source ./loadtest.js --share-name $share_name_k6 --no-progress -o table
+az storage file upload --source ../loadtest.js --share-name $share_name_k6 --no-progress -o table
 az storage directory create --name datasources --share-name $share_name_grafana -o table
 az storage file upload --source ./datasource.yaml --share-name $share_name_grafana --path datasources/influx.yaml --no-progress -o table
 

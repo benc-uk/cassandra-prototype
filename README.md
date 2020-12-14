@@ -7,13 +7,7 @@ It has a distinct MVC style separation between the HTTP API layer (`routes.go`) 
 
 The `pkg` tree of the repo contains supporting packages providing; API base services (for status and health checking), API testing and a standard problem package used by everything in order to return standard RFC-7807 format errors.
 
-Application config:
-
-- `CASSANDRA_CLUSTER` - Hostname or IP to connect to the Cassandra cluster (default: 'localhost').
-- `CASSANDRA_KEYSPACE` - Cassandra keyspace to use (default: 'k1').
-- `CASSANDRA_USERNAME` - Optional. Username to connect to Cassandra with.
-- `CASSANDRA_PASSWORD` - Optional. Password for above user.
-- `PORT` - Port to listen on, (default: '8080')
+This cmd and pkg structure, follows the [golang-standards/project-layout](https://github.com/golang-standards/project-layout)
 
 ## Local Quick Start
 
@@ -37,16 +31,28 @@ DELETE /api/orders/{id} - Delete a single order
 POST /api/orders        - Create a new order
 ```
 
+## Application config
+
+- `CASSANDRA_CLUSTER` - Hostname or IP to connect to the Cassandra cluster (default: 'localhost').
+- `CASSANDRA_KEYSPACE` - Cassandra keyspace to use (default: 'k1').
+- `CASSANDRA_USERNAME` - Optional. Username to connect to Cassandra with.
+- `CASSANDRA_PASSWORD` - Optional. Password for above user.
+- `PORT` - Port to listen on, (default: '8080')
+
 ## Repo Structure
 
 ```
-📂 .github/workflows - GitHub Actions
-📂 cmd               - Go REST app
-📂 kubernetes/helm   - Helm charts
-📂 old-java          - Junk
-📂 pkg               - Supporting packages for Go app
-📂 scripts           - Local scripts, mainly for Cassandra
-📂 testing           - Load testing, bash deployment scripts and k6 test files
+📂 .github/workflows   - GitHub Actions
+📂 cmd                 - Go REST app
+📂 kubernetes/helm     - Helm charts
+  📂 cassandra-go-api  - Helm chart for app + Cassandra DB
+  📂 prom-grafana      - Helm chart for Prometheus + Grafana
+📂 old-java            - Junk
+📂 pkg                 - Supporting packages for Go app
+📂 scripts             - Local scripts, mainly for Cassandra
+📂 testing             - Testing & load testing
+  📂 api               - API tests, Postman etc
+  📂 load              - Load testing with k6
 ```
 
 ## Project Makefile

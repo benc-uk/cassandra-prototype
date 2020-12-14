@@ -1,8 +1,8 @@
-@endpoint = http://localhost:8080
-#@endpoint = https://testapp.kube.benco.io
+#@endpoint = http://localhost:8080
+@endpoint = https://protoapp.kube.benco.io
 
 ### Get an order
-GET {{endpoint}}/api/orders/820cfc30-929c-4b27-aab7-78e217ca3056
+GET {{endpoint}}/api/orders/b902dee0-013f-48ac-8ddb-28226e26e0d3
 
 ### Get all orders!
 GET {{endpoint}}/api/orders

@@ -17,3 +17,7 @@
 cmd/tmp
 cmd/server
 output/**
+.venv
+node_modules
+.terraform
+*.tfstate*

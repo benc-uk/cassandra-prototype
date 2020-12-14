@@ -1,6 +1,6 @@
 import http from "k6/http";
 import { check } from "k6";
-import { group, log } from "k6";
+import { group } from "k6";
 
 //
 // Options, stages and thresholds for load test here

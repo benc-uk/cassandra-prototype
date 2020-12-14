@@ -68,16 +68,27 @@ POST /api/orders        - Create a new order
 You may want to set `DOCKER_REG`, `DOCKER_REPO` and `DOCKER_TAG` before running `make build`  
 Also `VERSION` and `BUILD_INFO` can be set for versioning
 
-## Deployment Automation - Helm Chart
+## Deployment Automation - Helm Charts
 
-Helm chart in `./kubernetes/helm/testapp` carries out the following:
+### Chart: cassandra-go-api
+
+Helm chart in `./kubernetes/helm/cassandra-go-api` carries out the following:
 
 - Deploys the Go app from `ghcr.io/benc-uk/cassandra-prototype`
 - Deploys Cassandra + keyspace & table
-- Prometheus & Grafana
-  - Prometheus set to scrape metrics exported by the app (See below)
 
-[See values file for full details](kubernetes/helm/testapp/values.yaml) of how to configure this chart
+[See values file for full details](kubernetes/helm/cassandra-go-api/Chart.yaml) for how to configure this chart.
+
+### Chart: prom-grafana
+
+Helm chart in `./kubernetes/helm/prom-grafana` carries out the following:
+
+- Deploys Prometheus
+- Deploys Grafana
+- Adds additional scrape config to Prometheus to get metrics from cassandra-go-api
+- Adds datasoruces to Grafana (Prometheus and InfluxDB) and a set dashboards for Cassandra, k6, k8s nodes and the app
+
+[See values file for full details](kubernetes/helm/prom-grafana/Chart.yaml) for how to configure this chart.
 
 ## Load Testing
 

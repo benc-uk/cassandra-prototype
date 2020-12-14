@@ -1,0 +1,15 @@
+replicas: 2
+ingress:
+  enabled: true
+  hosts:
+    - host: protoapp.kube.benco.io
+      paths: ["/"]
+  tls:
+    - secretName: temp-cert # kube-benco-io-cert
+      hosts:
+        - protoapp.kube.benco.io
+
+cassandra:
+  replicaCount: 1
+  persistence:
+    enabled: false

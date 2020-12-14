@@ -44,7 +44,7 @@ spec:
 
         livenessProbe:
           httpGet:
-            path: /status
+            path: /healthz
             port: {{ .Values.network.port }}
         readinessProbe:
           httpGet:

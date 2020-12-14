@@ -1,0 +1,12 @@
+apiVersion: v2
+name: cassandra-go-api
+description: A prototype Go REST API using Cassandra as DB
+type: application
+
+version: 0.1.0
+appVersion: 0.1.0
+
+dependencies:
+  - name: cassandra
+    repository: https://charts.bitnami.com/bitnami
+    version: 7.0.1

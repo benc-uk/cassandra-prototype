@@ -18,6 +18,8 @@ ingress:
   tls: []
 
 cassandra:
+  metrics:
+    enabled: true
   persistence:
     enabled: true
   replicaCount: 1
@@ -25,24 +27,4 @@ cassandra:
     datacenter: datacenter1 # No effect due to this bug https://github.com/bitnami/charts/issues/4408
   dbUser:
     user: cassandra
-  initDBConfigMap: testapp-cassandra-db-init
-
-prometheus:
-  alertmanager:
-    enabled: false
-  pushgateway:
-    enabled: false
-  extraScrapeConfigs: |
-    - job_name: app_metrics
-      kubernetes_sd_configs:
-      - role: service
-        selectors:
-        - role: service
-          label: "app.kubernetes.io/name=testapp"
-
-grafana:
-  service:
-    type: LoadBalancer
-  sidecar:
-    datasources:
-      enabled: true
+  initDBConfigMap: cassandra-db-init

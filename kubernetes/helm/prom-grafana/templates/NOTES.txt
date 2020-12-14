@@ -1,0 +1,25 @@
+╔══════════════════════════╗
+║   Grafana + Prometheus   ║
+╚══════════════════════════╝
+
+Grafana + Prometheus was deployed 🚀
+
+Grafana Details
+════════════════════════════
+Grafana username: admin
+Get Grafana password, this this command:
+ kubectl get secret {{ .Release.Name }}-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+{{- if .Values.grafana.ingress.enabled }}
+  {{- range $host := .Values.grafana.ingress.hosts }}
+Grafana URL: http{{ if $.Values.grafana.ingress.tls }}s{{ end }}://{{ $host }}
+  {{- end }}
+{{- else }}
+Get Grafana URL, run this command: 
+ echo "http://$(kubectl get svc {{ .Release.Name }}-grafana -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
+{{- end }}
+
+Prometheus Details
+════════════════════════════
+Access Prometheus via tunnel:
+  PROMPOD=$(kubectl get po -l app=prometheus -l component=server -o jsonpath='{.items[0].metadata.name}')
+  kubectl port-forward $PROMPOD 9090:9090

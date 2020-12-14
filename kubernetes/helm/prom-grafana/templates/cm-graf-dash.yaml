@@ -1,0 +1,33 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: cassandra-dashboard
+  labels:
+    grafana_dashboard: "1"
+data:
+  cassandra.json: |-
+{{ .Files.Get "dashboards/cassandra.json" | indent 4 }}
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: k6-dashboard
+  labels:
+    grafana_dashboard: "1"
+data:
+  k6.json: |-
+{{ .Files.Get "dashboards/k6.json" | indent 4 }}
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nodes-dashboard
+  labels:
+    grafana_dashboard: "1"
+data:
+  k8s-nodes.json: |-
+{{ .Files.Get "dashboards/k8s-nodes.json" | indent 4 }}

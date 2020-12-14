@@ -1,12 +1,11 @@
-####################################################
-###         Cassandra Prototype ☕ ⚡ ✨        ###
-####################################################
+╔══════════════════════════╗
+║  Cassandra Go Prototype  ║
+╚══════════════════════════╝
 
-Prototype app was deployed 🤩
-Plus: Cassandra, Prometheus & Grafana 🪁
+Prototype app + Cassandra was deployed 🚀
 
-1. Application Details
-======================
+Application Details
+════════════════════════════
 {{- if .Values.ingress.enabled }}
 {{- range $host := .Values.ingress.hosts }}
   {{- range .paths }}
@@ -28,17 +27,3 @@ Get the application URL by running these commands:
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:80
 {{- end }}
-
-2. Grafana Details
-==================
-Grafana username: admin
-Get Grafana password, this this command:
- kubectl get secret {{ .Release.Name }}-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
-{{- if .Values.grafana.ingress.enabled }}
-  {{- range $host := .Values.grafana.ingress.hosts }}
-Grafana URL: http{{ if $.Values.grafana.ingress.tls }}s{{ end }}://{{ $host }}
-  {{- end }}
-{{- else }}
-Get Grafana URL, run this command: 
- echo "http://$(kubectl get svc {{ .Release.Name }}-grafana -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
-{{- end}}

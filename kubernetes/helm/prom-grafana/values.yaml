@@ -1,0 +1,31 @@
+prometheus:
+  alertmanager:
+    enabled: false
+  pushgateway:
+    enabled: false
+  extraScrapeConfigs: |
+    - job_name: app_metrics
+      kubernetes_sd_configs:
+      - role: pod
+        selectors:
+        - role: pod
+          label: "app.kubernetes.io/name=cassandra-go-api"
+      relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+      - action: replace
+        source_labels:
+        - __meta_kubernetes_namespace
+        target_label: kubernetes_namespace
+      - action: replace
+        source_labels:
+        - __meta_kubernetes_pod_name
+        target_label: kubernetes_pod_name
+grafana:
+  service:
+    type: LoadBalancer
+  sidecar:
+    datasources:
+      enabled: true
+    dashboards:
+      enabled: true

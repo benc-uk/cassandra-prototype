@@ -1,0 +1,10 @@
+# HOWTO:
+# helm repo add influxdata https://helm.influxdata.com/
+# helm install influx influxdata/influxdb -f ./influxdb-values.yaml
+#
+
+service:
+  type: LoadBalancer
+
+persistence:
+  enabled: false

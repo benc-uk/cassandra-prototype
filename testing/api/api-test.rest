@@ -1,5 +1,5 @@
-#@endpoint = http://localhost:8080
-@endpoint = https://protoapp.kube.benco.io
+@endpoint = http://localhost:8080
+#@endpoint = https://protoapp.kube.benco.io
 
 ### Create an order
 # @name createOrder
@@ -23,3 +23,9 @@ DELETE {{endpoint}}/api/orders/{{orderId}}
 
 ### Get all orders!
 GET {{endpoint}}/api/orders
+
+### Health check
+GET http://localhost:8080/healthz
+
+### Health check
+GET http://localhost:8080/metrics

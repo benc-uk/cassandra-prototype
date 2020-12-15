@@ -24,13 +24,15 @@ cd ../cmd
 
 ## API Operations and Routes
 
-See this API test file ([testing/api-test.rest](testing/api-test.rest)) for example requests and payloads (You will need the VS Code REST extension)
+See the API test file ([testing/api/api-test.rest](testing/api-test.rest)) for a set of example requests and payloads (You will need the VS Code REST extension)
+
+Summary:
 
 ```bash
-GET /api/orders         - Return all orders
-GET /api/orders/{id}    - Get a single order
-DELETE /api/orders/{id} - Delete a single order
-POST /api/orders        - Create a new order
+GET    /api/orders       - Return all orders
+GET    /api/orders/{id}  - Get a single order
+DELETE /api/orders/{id}  - Delete a single order
+POST   /api/orders       - Create a new order
 ```
 
 ## Application config
@@ -39,7 +41,7 @@ POST /api/orders        - Create a new order
 - `CASSANDRA_KEYSPACE` - Cassandra keyspace to use (default: 'k1').
 - `CASSANDRA_USERNAME` - Optional. Username to connect to Cassandra with.
 - `CASSANDRA_PASSWORD` - Optional. Password for above user.
-- `PORT` - Port to listen on, (default: '8080')
+- `PORT` - Port to listen on (default: '8080')
 
 ## Repo Structure
 
@@ -68,7 +70,7 @@ POST /api/orders        - Create a new order
 - `reports` - Create HTML report from test-output
 
 You may want to set `DOCKER_REG`, `DOCKER_REPO` and `DOCKER_TAG` before running `make build`  
-Also `VERSION` and `BUILD_INFO` can be set for versioning
+Also `VERSION` and `BUILD_INFO` can be set for versioning the build.
 
 ## Deployment Automation - Helm Charts
 
@@ -133,15 +135,27 @@ To add a dashboard in Grafana to see the results, [several pre-configured dashbo
 
 ## CI/CD - GitHub Actions
 
-[ci-build.yml](.github/workflows/ci-build.yml) - A very standard CI pipeline using GitHub Actions
+### Build
+
+Pipeline: [ci-build.yml](.github/workflows/ci-build.yml)
 
 - Runs Go format and linting
 - Run unit tests and code coverage + JUnit reporting
-- Builds the app as container and pushes to GitHub container registry
+- Builds the app as container and pushes to GitHub container registry  
+  _(When pushing to main)_
+
+### Release
+
+Pipeline: [release.yml](.github/workflows/ci-build.yml)
+
+- Deploys to Kubernetes (AKS) test namespace
+- Runs API tests (in testing/api/postman.json)
+- Deploys to Kubernetes (AKS) staging namespace
 
 ## Observability - Prometheus & Grafana
 
-📝 Todo - since switching to Go need to add metrics back into the app which we got for free with Quarkus
+The app exports Prometheus format metrics via the `/metrics` endpoint, this is using the promhttp package.
+Some custom API metrics + HTTP timings are also provided beyond the defaults.
 
 ## Local Scripts
 

@@ -1,16 +1,14 @@
 pipeline {
-  //agent any
   agent {
-      docker {
-          image 'golang:1.15.6-buster'
-          label '1.15.6-buster'
-      }
+    docker { image 'golang:1.15-alpine' }
   }
   stages {
-    stage('check') {
-      // Hello
+    stage('check-code') {
       steps {
+        sh 'go get -u golang.org/x/lint/golint'
+        sh 'go get gotest.tools/gotestsum'
         sh 'make format lint'
+        sh 'make test'
       }
     }
   }

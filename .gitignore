@@ -21,3 +21,4 @@ output/**
 node_modules
 .terraform
 *.tfstate*
+tmp/**

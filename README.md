@@ -7,19 +7,25 @@ It has a distinct MVC style separation between the HTTP API layer (`routes.go`) 
 
 The `pkg` tree of the repo contains supporting packages providing; API base services (for status and health checking), API testing and a standard problem package used by everything in order to return standard RFC-7807 format errors.
 
-This cmd and pkg structure, follows the [golang-standards/project-layout](https://github.com/golang-standards/project-layout)
-
 ![CI & Build](https://github.com/benc-uk/cassandra-prototype/workflows/CI%20&%20Build/badge.svg?branch=main)
+![Deployment](https://github.com/benc-uk/cassandra-prototype/workflows/Deploy%20to%20AKS/badge.svg?branch=main)
 
 ## Local Quick Start
 
-Ensure you have Docker running locally
+Ensure you have Docker set up & running locally
+
+Install [`air`](https://github.com/cosmtrek/air)
 
 ```bash
-cd scripts
-./cassandra-local.sh
-cd ../cmd
-./run.sh
+go get -u github.com/cosmtrek/air
+```
+
+Clone the repo and start locally using `make runlocal`
+
+```bash
+git clone https://github.com/benc-uk/cassandra-prototype/
+cd cassandra-prototype
+make runlocal
 ```
 
 ## API Operations and Routes

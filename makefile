@@ -17,6 +17,10 @@ DOCKER_REPO ?= benc-uk/cassandra-prototype
 DOCKER_TAG ?= latest
 DOCKER_PREFIX := $(DOCKER_REG)/$(DOCKER_REPO)
 
+# Needed for running locally
+export CASSANDRA_USERNAME=cassandra
+export CASSANDRA_PASSWORD=cassandra
+
 ################################################################################
 # Lint check everything 
 ################################################################################
@@ -78,3 +82,11 @@ docker :
 .PHONY: push
 push :
 	docker push $(DOCKER_PREFIX):$(DOCKER_TAG)
+
+################################################################################
+# Run locally + Cassandra container with hot reloading
+################################################################################
+.PHONY: runlocal
+runlocal :
+	scripts/cassandra-local.sh
+	air -c .air.toml

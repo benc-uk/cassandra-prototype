@@ -1,18 +1,18 @@
 #!/bin/bash
-#set -e
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-echo "🔹 Removing old cassandra container"
-docker rm -f local-cassandra-instance
-echo "🔹 Starting cassandra!"
-docker run -d --name local-cassandra-instance \
+echo "🔹 Removing old Cassandra container"
+docker rm -f cassandradb
+
+set -e
+echo "🔹 Starting Cassandra..."
+docker run -d --name cassandradb \
+-v "$DIR:/tmp/cql" \
 -p 9042:9042 \
 bitnami/cassandra
 
-echo "🔹 Waiting..."
+echo "🔹 Waiting 20s for Cassandra to start..."
 sleep 20
 
-echo "🔹 Creating keyspace (k1) & orders table"
-docker exec -it local-cassandra-instance cqlsh -u cassandra -p cassandra -e \
-"CREATE KEYSPACE IF NOT EXISTS k1 WITH replication = {'class':'SimpleStrategy', 'replication_factor':1}"
-docker exec -it local-cassandra-instance cqlsh -u cassandra -p cassandra -e \
-"CREATE TABLE IF NOT EXISTS k1.orders(id UUID, product text, description text, items int, PRIMARY KEY(id))"
+echo "🔹 Initialising the daatabase"
+docker exec -it cassandradb cqlsh -u cassandra -p cassandra -f /tmp/cql/init.cql

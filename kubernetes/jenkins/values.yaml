@@ -1,0 +1,11 @@
+controller:
+  ingress:
+    enabled: true
+    hostName: jenkins.kube.benco.io
+    tls:
+      - secretName: temp-cert
+        hosts:
+          - jenkins.kube.benco.io
+
+persistence:
+  enabled: true

@@ -12,8 +12,8 @@ VERSION ?= 0.0.1
 BUILD_INFO ?= "Makefile build"
 
 # Most likely want to override these when calling `make docker`
-DOCKER_REG ?= ghcr.io
-DOCKER_REPO ?= benc-uk/cassandra-prototype
+DOCKER_REG ?= docker.io
+DOCKER_REPO ?= changeme/cassandra-prototype
 DOCKER_TAG ?= latest
 DOCKER_PREFIX := $(DOCKER_REG)/$(DOCKER_REPO)
 

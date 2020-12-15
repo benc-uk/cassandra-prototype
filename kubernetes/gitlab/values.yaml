@@ -1,0 +1,19 @@
+global:
+  hosts:
+    domain: kube.benco.io
+    https: true
+  ingress:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    configureCertmanager: false
+    enabled: true
+    tls:
+      enabled: true
+      secretName: temp-cert # kube-benco-io-cert
+
+certmanager:
+  install: false
+nginx-ingress:
+  enabled: false
+prometheus:
+  install: false

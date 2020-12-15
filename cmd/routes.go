@@ -56,7 +56,6 @@ func (api API) getOrder(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	//api.service.HealthCheck()
 	metricOrderGetTotal.Inc()
 	api.Send(order, resp)
 }

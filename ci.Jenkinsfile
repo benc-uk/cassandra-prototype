@@ -1,11 +1,11 @@
 pipeline {
-  agent any
-  // agent {
-  //     docker {
-  //         image 'golang'
-  //         label '1.15.6-buster'
-  //     }
-  // }
+  //agent any
+  agent {
+      docker {
+          image 'golang:1.15.6-buster'
+          label '1.15.6-buster'
+      }
+  }
   stages {
     stage('check') {
       // Hello

@@ -10,9 +10,9 @@ package impl
 import (
 	"log"
 
-	"github.com/benc-uk/cassandra-sample/cmd/spec"
-	"github.com/benc-uk/cassandra-sample/pkg/env"
-	"github.com/benc-uk/cassandra-sample/pkg/problem"
+	"github.com/benc-uk/cassandra-prototype/cmd/spec"
+	"github.com/benc-uk/cassandra-prototype/pkg/env"
+	"github.com/benc-uk/cassandra-prototype/pkg/problem"
 	"github.com/gocql/gocql"
 )
 

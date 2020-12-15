@@ -8,8 +8,8 @@
 package mock
 
 import (
-	"github.com/benc-uk/cassandra-sample/cmd/spec"
-	"github.com/benc-uk/cassandra-sample/pkg/problem"
+	"github.com/benc-uk/cassandra-prototype/cmd/spec"
+	"github.com/benc-uk/cassandra-prototype/pkg/problem"
 )
 
 // OrderService mock

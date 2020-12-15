@@ -12,9 +12,9 @@ import (
 	"log"
 	"testing"
 
-	"github.com/benc-uk/cassandra-sample/cmd/mock"
-	"github.com/benc-uk/cassandra-sample/pkg/apibase"
-	"github.com/benc-uk/cassandra-sample/pkg/apitests"
+	"github.com/benc-uk/cassandra-prototype/cmd/mock"
+	"github.com/benc-uk/cassandra-prototype/pkg/apibase"
+	"github.com/benc-uk/cassandra-prototype/pkg/apitests"
 
 	"github.com/gorilla/mux"
 )

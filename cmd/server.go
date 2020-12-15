@@ -12,10 +12,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/benc-uk/cassandra-sample/cmd/impl"
-	"github.com/benc-uk/cassandra-sample/cmd/spec"
-	"github.com/benc-uk/cassandra-sample/pkg/apibase"
-	"github.com/benc-uk/cassandra-sample/pkg/env"
+	"github.com/benc-uk/cassandra-prototype/cmd/impl"
+	"github.com/benc-uk/cassandra-prototype/cmd/spec"
+	"github.com/benc-uk/cassandra-prototype/pkg/apibase"
+	"github.com/benc-uk/cassandra-prototype/pkg/env"
 
 	"github.com/gorilla/mux"
 	_ "github.com/joho/godotenv/autoload" // Autoloads .env file if it exists

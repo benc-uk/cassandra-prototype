@@ -12,8 +12,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/benc-uk/cassandra-sample/cmd/spec"
-	"github.com/benc-uk/cassandra-sample/pkg/problem"
+	"github.com/benc-uk/cassandra-prototype/cmd/spec"
+	"github.com/benc-uk/cassandra-prototype/pkg/problem"
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"

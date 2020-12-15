@@ -8,6 +8,7 @@ pipeline {
   // }
   stages {
     stage('check') {
+      // Hello
       steps {
         sh 'make format lint'
       }

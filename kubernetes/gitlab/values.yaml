@@ -11,6 +11,10 @@ global:
       enabled: true
       secretName: temp-cert # kube-benco-io-cert
 
+gitlab-runner:
+  runners:
+    privileged: true
+
 certmanager:
   install: false
 nginx-ingress:

@@ -41,7 +41,7 @@ format :
 ################################################################################
 .PHONY: test
 test: 
-	go test -v github.com/benc-uk/cassandra-sample/cmd
+	go test -v ./$(CMD_DIR)
 
 ################################################################################
 # Run tests with output reports

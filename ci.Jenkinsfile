@@ -1,6 +1,7 @@
 pipeline {
   agent {
     docker { 
+      // Blah
       image 'golang:1.15-alpine'
       args '-u root:root'
     }

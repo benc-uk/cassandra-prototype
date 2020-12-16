@@ -27,7 +27,7 @@ build-image:
 push-image:
   only:
     refs:
-      - master
+      - main
   needs:
     - build-image
   stage: post-build

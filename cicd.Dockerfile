@@ -9,3 +9,7 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add \
 
 RUN go get -u golang.org/x/lint/golint \
  && go get gotest.tools/gotestsum
+
+RUN apt-get clean autoclean \
+ && apt-get autoremove --yes \
+ && rm -rf /var/lib/{apt,dpkg,cache,log}/

@@ -1,8 +1,5 @@
-# This file is a template, and might need editing before it works on your project.
-# Read more about the feature here: https://docs.gitlab.com/ee/user/project/merge_requests/accessibility_testing.html
-
 default:
-  image: golang:1.15.6-buster
+  image: golang:1.15-buster
 
   before_script:
     - go get -u golang.org/x/lint/golint
@@ -24,9 +21,13 @@ test:
 
 build-image:
   stage: build
-  script: make build
+  script:
+    - make build
 
 push-image:
+  only:
+    refs:
+      - master
   needs:
     - build-image
   stage: post-build

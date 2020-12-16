@@ -1,5 +1,5 @@
 default:
-  image: golang:1.15-buster
+  image: ghcr.io/benc-uk/golang-docker:latest
 
   before_script:
     - go get -u golang.org/x/lint/golint

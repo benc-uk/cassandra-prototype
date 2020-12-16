@@ -4,7 +4,6 @@ pipeline {
       // Blah
       image 'golang:1.15-buster'
       args '-u root:root'
-      label 'dood'
     }
   }
   stages {

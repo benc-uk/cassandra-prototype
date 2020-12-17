@@ -15,7 +15,7 @@ RUN if [[ $CGO_ENABLED -eq 1 ]]; then apk update && apk add gcc musl-dev; fi
 # Fetch and cache Go modules
 COPY go.mod .
 COPY go.sum .
-RUN go mod download
+#RUN go mod download
 
 # Copy in Go source files
 COPY cmd/ ./cmd/

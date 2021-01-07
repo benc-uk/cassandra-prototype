@@ -10,6 +10,6 @@ grafana:
     enabled: true
     hosts: ["grafana.kube.benco.io"]
     tls:
-      - secretName: temp-cert # kube-benco-io-cert
+      - secretName: kube-benco-io-cert
         hosts:
           - grafana.kube.benco.io

@@ -5,7 +5,7 @@ ingress:
     - host: protoapp.kube.benco.io
       paths: ["/"]
   tls:
-    - secretName: temp-cert # kube-benco-io-cert
+    - secretName: kube-benco-io-cert
       hosts:
         - protoapp.kube.benco.io
 

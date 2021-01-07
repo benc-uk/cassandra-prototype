@@ -3,7 +3,7 @@ controller:
     enabled: true
     hostName: jenkins.kube.benco.io
     tls:
-      - secretName: temp-cert
+      - secretName: kube-benco-io-cert
         hosts:
           - jenkins.kube.benco.io
 

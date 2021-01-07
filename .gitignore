@@ -25,3 +25,4 @@ tmp/**
 testing/**/*.csv
 __pycache__
 **/charts/*.tgz
+testing/load/*.json

@@ -46,7 +46,7 @@ pipeline {
         branch 'main'
       }      
       steps {
-        build job: 'deploy-to-aks', parameters: [string(name: 'imageTag', value: "fred")]
+        build job: 'deploy-to-aks', parameters: [string(name: 'imageTag', value: "${DOCKER_TAG}")]
       }
     }         
   }

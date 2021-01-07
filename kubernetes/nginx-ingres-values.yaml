@@ -1,0 +1,12 @@
+controller:
+  service:
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-resource-group: aks
+    externalTrafficPolicy: Local
+    loadBalancerIP: 52.236.144.85
+  metrics:
+    enabled: true
+    service:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"

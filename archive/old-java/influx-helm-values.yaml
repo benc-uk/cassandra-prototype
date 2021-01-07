@@ -1,0 +1,16 @@
+persistence:
+  enabled: false
+service:
+  type: LoadBalancer
+setDefaultUser:
+  enabled: false
+  #user:
+  #  username: admin
+  #  password: "!!secret786534"
+#resources:
+#requests:
+#memory: 1Gi
+#cpu: 500m
+#limits:
+#memory: 16Gi
+#cpu: 1000m

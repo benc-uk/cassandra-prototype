@@ -9,7 +9,7 @@ global:
     enabled: true
     tls:
       enabled: true
-      secretName: temp-cert # kube-benco-io-cert
+      secretName: kube-benco-io-cert
 
 gitlab-runner:
   runners:

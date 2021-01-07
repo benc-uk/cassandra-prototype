@@ -5,7 +5,7 @@ import { group } from "k6";
 //
 // Options, stages and thresholds for load test here
 //
-const STAGE_TIME = __ENV.TEST_STAGE_TIME || "20";
+const STAGE_TIME = __ENV.TEST_STAGE_TIME || "1";
 export let options = {
   maxRedirects: 4,
   stages: [
@@ -18,8 +18,7 @@ export let options = {
     { duration: `${STAGE_TIME}s`, target: 0 },
   ],
   thresholds: {
-    "failed requests": ["rate < 0.1"],
-    http_req_duration: ["p(90) < 900"],
+    http_req_duration: ["med > 100"],
   },
 };
 
@@ -50,9 +49,8 @@ export default function () {
     });
 
     check(res, {
-      "POST /api/orders: status 200": (r) => r.status === 200,
-      "POST /api/orders: new order is ok": (r) =>
-        typeof JSON.parse(r.body).id === "string",
+      "HTTP status was 200": (r) => r.status === 200,
+      "New order has an ID": (r) => typeof JSON.parse(r.body).id === "string",
     });
 
     orderIds[`${__VU}_${__ITER}`] = JSON.parse(res.body).id;
@@ -68,8 +66,8 @@ export default function () {
     let res = http.get(url);
 
     check(res, {
-      "GET /api/orders: status 200": (r) => r.status === 200,
-      "GET /api/orders: fetched order is correct": (r) =>
+      "HTTP status was 200": (r) => r.status === 200,
+      "Order has product field": (r) =>
         JSON.parse(r.body).product === "Lemon Curd",
     });
   });
@@ -84,7 +82,7 @@ export default function () {
     let res = http.del(url);
 
     check(res, {
-      "DELETE /api/orders: status 200": (r) => r.status === 200,
+      "Delete operation status was 200": (r) => r.status === 200,
     });
   });
 }

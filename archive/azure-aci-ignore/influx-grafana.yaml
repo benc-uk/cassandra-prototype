@@ -1,0 +1,53 @@
+type: Microsoft.ContainerInstance/containerGroups
+apiVersion: 2019-12-01
+location: ${REGION}
+name: ${ACI_NAME}
+
+properties:
+  containers:
+    - name: grafana
+      properties:
+        image: grafana/grafana
+        resources:
+          requests:
+            cpu: 1
+            memoryInGb: 1
+        ports:
+          - port: 3000
+        volumeMounts:
+          - name: grafana-provisioning
+            mountPath: /etc/grafana/provisioning
+
+    - name: influxdb
+      properties:
+        image: influxdb
+        resources:
+          requests:
+            cpu: 7
+            memoryInGb: 5
+        ports:
+          - port: 8086
+        volumeMounts:
+          - name: influx-data
+            mountPath: /var/lib/influxdb
+
+  osType: Linux
+  volumes:
+    - name: grafana-provisioning
+      azureFile:
+        shareName: grafana-provisioning
+        storageAccountName: ${STORAGE_ACCOUNT}
+        storageAccountKey: ${STORAGE_KEY}
+    - name: influx-data
+      azureFile:
+        shareName: influx-data
+        storageAccountName: ${STORAGE_ACCOUNT}
+        storageAccountKey: ${STORAGE_KEY}
+
+  ipAddress:
+    type: Public
+    ports:
+      - protocol: tcp
+        port: 3000
+      - protocol: tcp
+        port: 8086

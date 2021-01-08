@@ -62,8 +62,50 @@ jobs:
       - name: "Checkout repo"
         uses: actions/checkout@v1
 
-      - name: "Run API tests"
-        run: npx newman run testing/api/postman.json --global-var API_ENDPOINT="https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}"
+      # Run the tests inside a container with Newman
+      - name: "Run API tests with Postman/newman"
+        uses: docker://dannydainton/htmlextra
+        with:
+          args: run /github/workspace/testing/api/postman.json -n 5 --global-var API_ENDPOINT="https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}" -r htmlextra --reporter-htmlextra-export /github/workspace/testing/api/api-report.html
+
+      - name: "Upload API test results"
+        uses: actions/upload-artifact@v2
+        with:
+          name: api-test-result
+          path: testing/api/api-report.html
+
+  load-test:
+    name: Run Load Test
+    needs: deploy-test
+    env:
+      NAMESPACE: proto-test
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v1
+
+      - name: "Login to Azure"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: "Run K6 load tests using ACI"
+        run: ./run-azure.sh "https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}" 5
+        working-directory: testing/load
+
+      - name: "Convert results to HTML"
+        run: |
+          wget https://github.com/benc-uk/k6-reporter/releases/download/1.0.0/k6-reporter
+          chmod +x ./k6-reporter
+          ./k6-reporter ./load-test-result.json ./load-test-result.html
+        working-directory: testing/load
+
+      - name: "Upload load test results"
+        uses: actions/upload-artifact@v2
+        with:
+          name: load-test-result
+          path: testing/load/load-test-result.html
 
   deploy-staging:
     name: Deploy to Staging

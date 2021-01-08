@@ -26,3 +26,5 @@ testing/**/*.csv
 __pycache__
 **/charts/*.tgz
 testing/load/*.json
+testing/load/*.html
+testing/load/k6-reporter

@@ -19,6 +19,7 @@ export let options = {
   ],
   thresholds: {
     http_req_duration: ["med > 100"],
+    http_req_waiting: ["avg > 20"],
   },
 };
 

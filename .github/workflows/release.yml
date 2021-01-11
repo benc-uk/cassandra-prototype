@@ -93,6 +93,9 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: "Wait for deployment to be ready"
+        run: .github/url-check.sh -u "https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}"
+
       - name: "Run K6 load tests using ACI"
         run: ./run-azure.sh "https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}" 5
         working-directory: testing/load

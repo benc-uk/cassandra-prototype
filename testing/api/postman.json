@@ -11,19 +11,22 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "01e3ac5e-5b09-49f8-8e45-62cc4f613b6e",
 						"exec": [
-							"pm.test(\"Orders POST: Response is OK, with JSON body\", function () {",
-							"     pm.response.to.be.ok;",
-							"     pm.response.to.be.withBody;",
-							"     pm.response.to.be.json;",
+							"pm.test(\"result is OK and JSON\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Orders POST: New order has ID\", function () {",
+							"pm.test(\"order is returned\", function () {",
 							"    var order = pm.response.json();",
-							"    pm.expect(order.id).to.not.be.empty;",
-							"    // Put event id into variable to be used by next test (Delete Event)",
-							"    pm.environment.set(\"ORDER_ID\", order.id);",
+							"    pm.expect(order.id).to.have.lengthOf.at.least(4);",
+							"});",
+							"",
+							"pm.test('order is valid', function() {",
+							"    const ajv = new require('ajv')({});",
+							"    const order = pm.response.json()",
+							"",
+							"    pm.expect(order).to.have.jsonSchema(pm.variables.get(\"schema\"));",
 							"});",
 							""
 						],
@@ -33,9 +36,11 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2c3d3f9e-efd1-4c89-b4d2-a0301d1a2c76",
 						"exec": [
-							""
+							"pm.sendRequest(pm.variables.get(\"orderSchemaUrl\"), (error, response) => {\r",
+							"    if (error || response.code != 200) throw new Error(\"loading schema from \" + pm.variables.get(\"orderSchemaUrl\"));\r",
+							"    pm.variables.set(\"schema\", response.json())\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -153,23 +158,24 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a567e7dc-b888-44aa-952d-6b616d939d00",
 						"exec": [
-							"pm.test(\"Orders GET: Response is OK, with JSON body\", function () {",
-							"     pm.response.to.be.ok;",
-							"     pm.response.to.be.withBody;",
-							"     pm.response.to.be.json;",
+							"pm.test(\"result is OK and JSON\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Orders GET: order has product\", function () {",
+							"pm.test(\"order is returned\", function () {",
 							"    var order = pm.response.json();",
-							"    pm.expect(order.product).to.not.be.empty;",
+							"    pm.expect(order.id).to.have.lengthOf.at.least(4);",
 							"});",
 							"",
-							"pm.test(\"Orders GET: order has more than zero items\", function () {",
-							"    var order = pm.response.json();",
-							"    pm.expect(order.items).to.be.greaterThan(0)",
-							"});"
+							"pm.test('order is valid', function() {",
+							"    const ajv = new require('ajv')({});",
+							"    const order = pm.response.json()",
+							"",
+							"    pm.expect(order).to.have.jsonSchema(pm.variables.get(\"schema\"));",
+							"});",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -177,9 +183,11 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "a0385298-e470-49e8-8af0-83f2a95fab1a",
 						"exec": [
-							""
+							"pm.sendRequest(pm.variables.get(\"orderSchemaUrl\"), (error, response) => {\r",
+							"    if (error || response.code != 200) throw new Error(\"loading schema from \" + pm.variables.get(\"orderSchemaUrl\"));\r",
+							"    pm.variables.set(\"schema\", response.json())\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -294,14 +302,15 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "90c2145b-0b12-4367-9ea8-54d0f57c9148",
 						"exec": [
-							"pm.test(\"Orders DELETE: Response is OK, with JSON body\", function () {",
-							"     pm.response.to.be.ok;",
-							"     pm.response.to.be.withBody;",
-							"     pm.response.to.be.json;",
+							"pm.test(\"result is OK\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});",
-							""
+							"",
+							"pm.test(\"delete message is returned\", function () {",
+							"    var res = pm.response.json();",
+							"    pm.expect(res.message).to.exist",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -309,7 +318,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "a932b27a-f975-4209-bcb5-784cd8a848a7",
 						"exec": [
 							""
 						],
@@ -421,5 +429,30 @@
 			]
 		}
 	],
-	"protocolProfileBehavior": {}
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "orderSchemaUrl",
+			"value": "https://raw.githubusercontent.com/benc-uk/cassandra-prototype/main/cmd/spec/schema.json"
+		}
+	]
 }

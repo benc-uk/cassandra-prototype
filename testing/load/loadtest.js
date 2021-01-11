@@ -1,11 +1,13 @@
 import http from "k6/http";
-import { check } from "k6";
-import { group } from "k6";
+import { check, group } from "k6";
+
+// Environmental var input parameters
+const API_ENDPOINT = __ENV.TEST_API_ENDPOINT || `http://localhost:8080`;
+const STAGE_TIME = __ENV.TEST_STAGE_TIME || "5";
 
 //
 // Options, stages and thresholds for load test here
 //
-const STAGE_TIME = __ENV.TEST_STAGE_TIME || "1";
 export let options = {
   maxRedirects: 4,
   stages: [
@@ -18,15 +20,12 @@ export let options = {
     { duration: `${STAGE_TIME}s`, target: 0 },
   ],
   thresholds: {
-    http_req_duration: ["med > 100"],
+    http_req_duration: ["avg > 20"],
     http_req_waiting: ["avg > 20"],
   },
 };
 
-// Environmental input parameters
-const API_ENDPOINT = __ENV.TEST_API_ENDPOINT || `http://localhost:8080`;
-
-// Globals
+// Global store of order ids created
 var orderIds = {};
 
 export function setup() {

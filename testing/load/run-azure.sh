@@ -17,7 +17,7 @@ rg=loadtest
 prefix=bcloadtest0601
 # Important parameters for the load test 
 test_endpoint=$1
-test_stage_time=${2:-20} # Default is 20 seconds
+test_stage_time=${2:-25} # Default is 25 seconds
 
 # No need to change these really
 sa_name=${prefix}store

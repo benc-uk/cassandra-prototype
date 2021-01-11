@@ -74,14 +74,14 @@ docker :
 	docker build . -f Dockerfile \
 	--build-arg VERSION=$(VERSION) \
 	--build-arg BUILD_INFO='$(BUILD_INFO)' \
-	-t $(DOCKER_PREFIX):$(DOCKER_TAG)
+	-t $(DOCKER_PREFIX):$(DOCKER_TAG) -t $(DOCKER_PREFIX):latest
 
 ################################################################################
 # Push Docker image
 ################################################################################
 .PHONY: push
 push :
-	docker push $(DOCKER_PREFIX):$(DOCKER_TAG)
+	docker push $(DOCKER_PREFIX)
 
 ################################################################################
 # Run locally + Cassandra container with hot reloading

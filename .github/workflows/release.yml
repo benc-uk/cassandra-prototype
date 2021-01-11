@@ -22,7 +22,7 @@ jobs:
     env:
       NAMESPACE: proto-test
     environment:
-      name: "AKS: proto"
+      name: "AKS: test"
       url: "https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}/"
 
     runs-on: ubuntu-latest
@@ -62,6 +62,9 @@ jobs:
       - name: "Checkout repo"
         uses: actions/checkout@v1
 
+      - name: "Wait for deployment to be ready"
+        run: .github/url-check.sh -u "https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}"
+
       # Run the tests inside a container with Newman
       - name: "Run API tests with Postman/newman"
         uses: docker://dannydainton/htmlextra
@@ -96,7 +99,7 @@ jobs:
 
       - name: "Convert results to HTML"
         run: |
-          wget https://github.com/benc-uk/k6-reporter/releases/download/1.0.0/k6-reporter
+          wget https://github.com/benc-uk/k6-reporter/releases/download/1.1.0/k6-reporter
           chmod +x ./k6-reporter
           ./k6-reporter ./load-test-result.json ./load-test-result.html
         working-directory: testing/load

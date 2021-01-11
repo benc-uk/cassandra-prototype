@@ -1,9 +1,12 @@
 prometheus:
   server:
     persistentVolume:
-      enabled: false
+      enabled: true
 
 grafana:
+  persistence:
+    type: pvc
+    enabled: true
   service:
     type: ClusterIP
   ingress:

@@ -97,7 +97,7 @@ jobs:
         run: .github/url-check.sh -u "https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}"
 
       - name: "Run K6 load tests using ACI"
-        run: ./run-azure.sh "https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}" 5
+        run: ./run-azure.sh "https://${{ env.NAMESPACE }}.${{ env.DOMAIN_SUFFIX }}" 40
         working-directory: testing/load
 
       - name: "Convert results to HTML"
